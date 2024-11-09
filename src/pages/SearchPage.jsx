@@ -107,6 +107,7 @@ const SearchPage = () => {
             onChange={e => setSearchTerm(e.target.value)}
           />
           <FiSearch
+
             onClick={() => handleSearch()}
             size={20}
             className="text-gray-500 mr-2"
@@ -157,8 +158,11 @@ const SearchPage = () => {
           선물하기 🎁
         </button>
       </div>
+
+
       {/* <PlayButton track_id="7pKfPomDEeI4TPT6EOYjn9" />
       <PlayBar track_id="7pKfPomDEeI4TPT6EOYjn9" /> */}
+
 
       <TapeModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <div className="text-center font-7bold text-[20px] mb-4">

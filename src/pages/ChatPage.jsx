@@ -1,3 +1,4 @@
+
 // import React, { useState, useEffect, useRef } from "react";
 // import socket from "../api/socket";
 
@@ -7,6 +8,7 @@
 // import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
 // import { IoSendSharp } from "react-icons/io5";
 // import { FiCamera, FiMic } from "react-icons/fi"; // 추가 아이콘
+
 
 // import { useLocation } from "react-router-dom"; // 테스트용
 
