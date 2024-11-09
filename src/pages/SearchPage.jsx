@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import MainBg from '../assets/MainBg.png';
 import ListBg from '../assets/ListBg.png';
-import SpotifyPlayButton from '../components/PlayButton';
+import PlayButton from '../components/PlayButton';
+import PlayBar from '../components/PlayBar';
 
 const SearchPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -117,7 +118,8 @@ const SearchPage = () => {
           </div>
         ))}
       </div>
-      <SpotifyPlayButton trackId="3Nrfpe0tUJi4K4DXYWgMUX" />
+      <PlayButton track_id="7pKfPomDEeI4TPT6EOYjn9" />
+      <PlayBar track_id="7pKfPomDEeI4TPT6EOYjn9" />
     </div>
   );
 };
