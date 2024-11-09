@@ -41,6 +41,7 @@ function App() {
         <Route path="/selectsong" element={<SelectSongPage />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/albumscroll" element={<SrollAlbumPage />} />
+
       </Routes>
     </Router>
   );
