@@ -15,6 +15,7 @@ export default {
         '3light': ['Freesentation-3Light', 'sans-serif'],
         '2extralight': ['Freesentation-2ExtraLight', 'sans-serif'],
         '1thin': ['Freesentation-1Thin', 'sans-serif'],
+        '0logo': ['SDKukdetopokki', 'sans-serif'],
       },
       keyframes: {
         scrollHorizontal: {
