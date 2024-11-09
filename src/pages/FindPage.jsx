@@ -16,6 +16,7 @@ const FindPage = () => {
       try {
         const data = await getFindings();
         setFindings(data);
+        console.log('fechiingeh 완료');
       } catch (error) {
         console.error("Failed to fetch findings:", error);
       }
