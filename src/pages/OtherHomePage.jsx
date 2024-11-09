@@ -116,8 +116,9 @@ const OtherHomePage = ({ id }) => {
         <div className="flex px-5 py-[10px] bg-[#fff] rounded-[20px] mt-[20px] mx-5 items-center">
           <div className="text-[18px] font-7bold">#MENOW</div>
         </div>
+
         <div
-          onClick={() => navigate('/search')}
+          onClick={() => navigate('/search', { state: { userId } })}
           className="mt-[20px] bg-[#ddd] rounded-xl mx-[20px] font-7bold text-[20px] py-[10px]"
         >
           테이프 선물하기 🎁
