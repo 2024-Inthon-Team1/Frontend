@@ -8,7 +8,11 @@ import HomePage from './pages/HomePage';
 import RegisterPage from './pages/RegisterPage';
 import ChatPage from './pages/ChatPage';
 import FindPage from './pages/FindPage';
+import ChatListPage from './pages/ChatListPage';
 import LandingPage from './pages/LandingPage';
+import SelectSongPage from './pages/SelectSongPage';
+import ProfilePage from './pages/ProfilePage';
+import SrollAlbumPage from './pages/ScrollAlbumPage';
 import SearchPage from './pages/SearchPage';
 import SpotifyCallback from './pages/SpotifyCallback';
 import { authenticateSpotify } from './api/spotifyApi';
@@ -34,10 +38,14 @@ function App() {
           <Route path="find" element={<FindPage />} />
         </Route>
         <Route path="/" element={<LandingPage />} />
-        <Route path="search" element={<SearchPage />} />
+        <Route path="/search" element={<SearchPage />} />
         <Route path="kakao/callback" element={<KakaoLoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="callback" element={<SpotifyCallback />} />
+        <Route path="/chatlist" element={<ChatListPage />} />
+        <Route path="/selectsong" element={<SelectSongPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/albumscroll" element={<SrollAlbumPage />} />
       </Routes>
     </Router>
   );
