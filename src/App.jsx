@@ -3,9 +3,9 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useEffect } from 'react';
 
 import NavigationBar from './components/mainFooter/NavigationBar';
-import LoginPage from './pages/auth/LoginPage';
 import KakaoLoginPage from './pages/auth/KakaoLoginPage';
 import HomePage from './pages/HomePage';
+import RegisterPage from './pages/RegisterPage';
 import ChatPage from './pages/ChatPage';
 import FindPage from './pages/FindPage';
 import LandingPage from './pages/LandingPage';
@@ -32,6 +32,7 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="search" element={<SearchPage />} />
         <Route path="kakao/callback" element={<KakaoLoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
       </Routes>
     </Router>
   );

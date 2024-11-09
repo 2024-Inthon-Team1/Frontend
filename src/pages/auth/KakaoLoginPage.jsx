@@ -15,6 +15,7 @@ const KakaoLoginPage = () => {
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get('code');
     if (code) {
+      console.log(code);
       try {
         const result = await authenticateWithKakao(code);
         if (result) {
