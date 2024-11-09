@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { authenticateWithKakao } from '../../api/auth';
 import { setUserId } from '../../redux/userSlice';
 
-import { setCookies } from '../../api/token';
+import { getCookie, setCookies } from '../../api/token';
 
 const KakaoLoginPage = () => {
   const navigate = useNavigate();
@@ -19,7 +19,8 @@ const KakaoLoginPage = () => {
       try {
         const result = await authenticateWithKakao(code);
         if (result) {
-          setCookies(result.accessToken, result.refreshToken);
+          console.log(result.data.accessToken, result.data.refreshToken);
+          setCookies(result.data.accessToken, result.data.refreshToken);
           dispatch(setUserId(result.userId));
           if (result.isSignedUp) {
             navigate('/home');

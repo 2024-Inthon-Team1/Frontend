@@ -1,12 +1,13 @@
 import apiClient from './apiClient';
 
-const TOKEN_EXPIRY_TIME = 60 * 1000;
+const TOKEN_EXPIRY_TIME = 60 * 60 * 1000;
 
 export const setCookies = (accessToken, refreshToken) => {
   const issueTime = Date.now();
-  document.cookie = `access_token=${accessToken}; path=/; max-age=60; SameSite=Strict;`;
+  document.cookie = `access_token=${accessToken}; path=/; max-age=3600; SameSite=Strict;`;
   document.cookie = `refresh_token=${refreshToken}; path=/; max-age=604800; SameSite=Strict;`;
-  document.cookie = `issue_time=${issueTime}; path=/; max-age=60; SameSite=Strict;`;
+  document.cookie = `issue_time=${issueTime}; path=/; max-age=3600; SameSite=Strict;`;
+  console.log(issueTime);
 };
 
 export const getCookie = name => {
@@ -25,6 +26,7 @@ export const logout = () => {
 export const isTokenExpired = () => {
   const issueTime = getCookie('issue_time');
   if (!issueTime) {
+    console('no issuetime');
     return true;
   }
   const now = Date.now();

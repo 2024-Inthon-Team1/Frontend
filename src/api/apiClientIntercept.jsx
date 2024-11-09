@@ -11,7 +11,10 @@ const apiClientIntercept = axios.create({
 
 apiClientIntercept.interceptors.request.use(
   async config => {
+    console.log('Intercepted request:', config);
+    console.log(getCookie('acess_token'));
     if (isTokenExpired()) {
+      console.log(isTokenExpired());
       try {
         const newAccessToken = await refreshingToken();
         config.headers['Authorization'] = `Bearer ${newAccessToken}`;
@@ -19,8 +22,8 @@ apiClientIntercept.interceptors.request.use(
         return Promise.reject(error);
       }
     } else {
-      // 만료되지 않은 경우 기존 accessToken 사용
       const accessToken = getCookie('access_token');
+      console.log(accessToken);
       if (accessToken) {
         config.headers['Authorization'] = `Bearer ${accessToken}`;
       }

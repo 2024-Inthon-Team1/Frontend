@@ -3,14 +3,15 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import ListBg from '../assets/ListBg.png';
+import { IoAddCircleOutline } from 'react-icons/io5';
 
 import PlayButton from '../components/PlayButton';
+import PlayBar from '../components/PlayBar';
 
 import TapeImage from '../assets/tape.png';
 import SpotifyPlayButton from '../components/PlayButton';
 import { FiSearch } from 'react-icons/fi';
 import TapeModal from '../components/TapeModal';
-
 
 const SearchPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -20,12 +21,11 @@ const SearchPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleSearch = async () => {
-    const token =
-      'BQCiEMKC5UV_bx4Ks4dfEoEDrd1zfN01-PQa2ZvEovLjIGCdm5ANGd5Qp41uYKpAWLOB91PSvDj9_Zh8_Q-SId9OlHMJnF-eLJ9osQjZA-1H934uEDw';
+    const token = localStorage.getItem('spotifyAccessToken');
 
     try {
       const response = await axios.get(
-        `https://api.spotify.com/v1/search?q=${encodeURIComponent(searchTerm)}&type=track`,
+        `https://api.spotify.com/v1/search?q=${encodeURIComponent(searchTerm)}&type=track&limit=10`, // limit=10 추가
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -51,7 +51,7 @@ const SearchPage = () => {
   };
 
   return (
-    <div className="bg-[#ff8000] h-screen w-full">
+    <div className="bg-[#ff8000] min-h-screen w-full pb-[100px]">
       <div className="py-8">
         <div className="w-full flex flex-col justify-center items-center px-5">
           <div className="w-full flex justify-start pt-[80px]">
@@ -76,10 +76,10 @@ const SearchPage = () => {
             className="w-full h-auto rounded-md shadow-sm"
           />
 
-          <div className="absolute inset-0 bg-white/0 p-2 rounded-md text-left text-sm space-y-1 pl-1">
+          <div className="absolute inset-0 bg-white/0 p-2 rounded-md text-left text-[16px] space-y-1 pl-10 pt-[65px]">
             {selectedTracks.length > 0 ? (
               selectedTracks.map((track, index) => (
-                <p key={track.id} className="truncate">
+                <p key={track.id} className="font-0logo truncate">
                   {index + 1}. {track.name} -{' '}
                   {track.artists.map(artist => artist.name).join(', ')}
                 </p>
@@ -89,6 +89,7 @@ const SearchPage = () => {
             )}
           </div>
         </div>
+
         <p className="text-center text-[20px] font-7bold">
           검색하여 음악을 추가하세요
         </p>
@@ -105,26 +106,33 @@ const SearchPage = () => {
             value={searchTerm}
             onChange={e => setSearchTerm(e.target.value)}
           />
-          <FiSearch size={20} className="text-gray-500 mr-2" />
+          <FiSearch
+            onClick={() => handleSearch()}
+            size={20}
+            className="text-gray-500 mr-2"
+          />
         </div>
+
         <div className="w-full max-w-md space-y-2">
           {tracks.map(track => (
             <div
               key={track.id}
-              className="flex items-center px-3 py-2 bg-gray-200 rounded-lg space-x-3 border border-gray-300"
+              className="flex items-center px-3 py-2 bg-[#FEF3E2] rounded-lg space-x-3 border border-gray-300"
             >
               <img
                 src={track.album.images[2]?.url}
                 alt={track.name}
                 className="w-10 h-10 rounded bg-gray-300"
               />
-              <div className="flex-1">
-                <h3 className="text-sm font-medium truncate">{track.name}</h3>
-                <p className="text-xs text-gray-600 truncate">
+              <div className="flex-1 text-left">
+                <h3 className="text-[16px] font-7bold truncate">
+                  {track.name}
+                </h3>
+                <p className="text-[16px] font-5medium text-gray-600 truncate">
                   {track.artists.map(artist => artist.name).join(', ')}
                 </p>
               </div>
-              <button
+              <IoAddCircleOutline
                 onClick={() => addTrackToList(track)}
                 disabled={isTrackSelected(track.id)}
                 className={`text-xl ${
@@ -132,14 +140,13 @@ const SearchPage = () => {
                     ? 'text-gray-400 cursor-not-allowed'
                     : 'text-gray-500 hover:text-gray-700'
                 }`}
-              >
-                +
-              </button>
+              />
             </div>
           ))}
         </div>
       </div>
-      <SpotifyPlayButton trackId="3Nrfpe0tUJi4K4DXYWgMUX" />
+
+      {/* <SpotifyPlayButton trackId="3Nrfpe0tUJi4K4DXYWgMUX" /> */}
 
       {/* 선물하기 버튼 하단 고정 */}
       <div className="fixed bottom-0 w-full max-w-md mx-auto left-0 right-0 mb-5 px-[20px]">
@@ -150,41 +157,8 @@ const SearchPage = () => {
           선물하기 🎁
         </button>
       </div>
-
-
-      <div className="w-full max-w-md space-y-2">
-        {tracks.map(track => (
-          <div
-            key={track.id}
-            className="flex items-center px-3 py-2 bg-gray-200 rounded-lg space-x-3 border border-gray-300"
-          >
-            <img
-              src={track.album.images[2]?.url}
-              alt={track.name}
-              className="w-10 h-10 rounded bg-gray-300"
-            />
-            <div className="flex-1">
-              <h3 className="text-sm font-medium truncate">{track.name}</h3>
-              <p className="text-xs text-gray-600 truncate">
-                {track.artists.map(artist => artist.name).join(', ')}
-              </p>
-            </div>
-            <button
-              onClick={() => addTrackToList(track)}
-              disabled={isTrackSelected(track.id)}
-              className={`text-xl ${
-                isTrackSelected(track.id)
-                  ? 'text-gray-400 cursor-not-allowed'
-                  : 'text-gray-500 hover:text-gray-700'
-              }`}
-            >
-              +
-            </button>
-          </div>
-        ))}
-      </div>
-      <PlayButton track_id="7pKfPomDEeI4TPT6EOYjn9" />
-      <PlayBar track_id="7pKfPomDEeI4TPT6EOYjn9" />
+      {/* <PlayButton track_id="7pKfPomDEeI4TPT6EOYjn9" />
+      <PlayBar track_id="7pKfPomDEeI4TPT6EOYjn9" /> */}
 
       <TapeModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <div className="text-center font-7bold text-[20px] mb-4">
