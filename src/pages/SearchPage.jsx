@@ -5,12 +5,12 @@ import { useNavigate } from 'react-router-dom';
 import ListBg from '../assets/ListBg.png';
 
 import PlayButton from '../components/PlayButton';
+import PlayBar from '../components/PlayBar';
 
 import TapeImage from '../assets/tape.png';
 import SpotifyPlayButton from '../components/PlayButton';
 import { FiSearch } from 'react-icons/fi';
 import TapeModal from '../components/TapeModal';
-
 
 const SearchPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -20,8 +20,7 @@ const SearchPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleSearch = async () => {
-    const token =
-      'BQCiEMKC5UV_bx4Ks4dfEoEDrd1zfN01-PQa2ZvEovLjIGCdm5ANGd5Qp41uYKpAWLOB91PSvDj9_Zh8_Q-SId9OlHMJnF-eLJ9osQjZA-1H934uEDw';
+    const token = localStorage.getItem('spotifyAccessToken');
 
     try {
       const response = await axios.get(
@@ -105,7 +104,11 @@ const SearchPage = () => {
             value={searchTerm}
             onChange={e => setSearchTerm(e.target.value)}
           />
-          <FiSearch size={20} className="text-gray-500 mr-2" />
+          <FiSearch
+            size={20}
+            className="text-gray-500 mr-2"
+            onClick={handleSearch}
+          />
         </div>
         <div className="w-full max-w-md space-y-2">
           {tracks.map(track => (
@@ -150,7 +153,6 @@ const SearchPage = () => {
           선물하기 🎁
         </button>
       </div>
-
 
       <div className="w-full max-w-md space-y-2">
         {tracks.map(track => (
