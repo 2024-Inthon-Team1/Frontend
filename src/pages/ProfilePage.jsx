@@ -1,4 +1,3 @@
-import React from 'react';
 import { ReactComponent as ProfileImgComponent } from 'src/assets/img/CreatorImg.svg';
 import { ReactComponent as NicknameEditBtn } from 'src/assets/img/nicknameEditBtn.svg';
 import { ReactComponent as Arrow } from 'src/assets/img/Arrow.svg';
@@ -44,8 +43,8 @@ const Profile = () => {
           </div>
         </div>
       </div>
-      <IconFooter activepage="/profile" />
-      <BackgroundFull color="#f2f3f6" />
+      {/* <IconFooter activepage="/profile" />
+      <BackgroundFull color="#f2f3f6" /> */}
     </div>
   );
 };
