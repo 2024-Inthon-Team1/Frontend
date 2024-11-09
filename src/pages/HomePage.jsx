@@ -1,5 +1,10 @@
+import MainFooter from '../components/mainFooter/MainFooter';
 const HomePage = () => {
-  return <></>;
+  return (
+    <>
+      <MainFooter active="my" />
+    </>
+  );
 };
 
 export default HomePage;
