@@ -8,6 +8,7 @@ import HomePage from './pages/HomePage';
 import RegisterPage from './pages/RegisterPage';
 import ChatPage from './pages/ChatPage';
 import FindPage from './pages/FindPage';
+import ChatListPage from './pages/ChatListPage';
 import LandingPage from './pages/LandingPage';
 import SelectSongPage from './pages/SelectSongPage';
 import ProfilePage from './pages/ProfilePage';
@@ -36,6 +37,7 @@ function App() {
         <Route path="/search" element={<SearchPage />} />
         <Route path="kakao/callback" element={<KakaoLoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/chatlist" element={<ChatListPage />} />
         <Route path="/selectsong" element={<SelectSongPage />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/albumscroll" element={<SrollAlbumPage />} />
