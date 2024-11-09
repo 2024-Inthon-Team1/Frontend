@@ -11,11 +11,11 @@ import HomeGrey from './homeGray.svg';
 function MainFooter({ active }) {
   return (
     <div
-      className="absolute bottom-0 w-full flex justify-around items-center bg-gray-100 pt-2 pb-8 border-t border-gray-300"
+      className="absolute bottom-0 w-full flex justify-around items-center bg-gray-100 pt-2 pb-6 border-t border-gray-300"
       style={{ boxShadow: '0 -3px 6px rgba(0, 0, 0, 0.05)' }} //그림자 효과
     >
       <div className="flex flex-col items-center">
-        <div className="mb-1">
+        <div>
           <img
             src={active === 'find' ? FindOrange : FindGrey}
             alt="Find Icon"
@@ -23,14 +23,14 @@ function MainFooter({ active }) {
           />
         </div>
         <span
-          className={`text-xs font-bold ${active === 'find' ? 'text-orange-500' : 'text-gray-500'}`}
+          className={`text-md font-bold ${active === 'find' ? 'text-orange-500' : 'text-gray-500'}`}
         >
           FIND
         </span>
       </div>
 
       <div className="flex flex-col items-center">
-        <div className="mb-1">
+        <div>
           <img
             src={active === 'my' ? HomeOrange : HomeGrey}
             alt="My Icon"
@@ -38,14 +38,14 @@ function MainFooter({ active }) {
           />
         </div>
         <span
-          className={`text-xs font-bold ${active === 'my' ? 'text-orange-500' : 'text-gray-500'}`}
+          className={`text-md font-bold ${active === 'my' ? 'text-orange-500' : 'text-gray-500'}`}
         >
           MY
         </span>
       </div>
 
       <div className="flex flex-col items-center">
-        <div className="mb-1">
+        <div>
           <img
             src={active === 'chat' ? ChatOrange : ChatGrey}
             alt="Chat Icon"
@@ -53,7 +53,7 @@ function MainFooter({ active }) {
           />
         </div>
         <span
-          className={`text-xs font-bold ${active === 'chat' ? 'text-orange-500' : 'text-gray-500'}`}
+          className={`text-md font-bold ${active === 'chat' ? 'text-orange-500' : 'text-gray-500'}`}
         >
           CHAT
         </span>
