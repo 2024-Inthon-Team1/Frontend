@@ -28,3 +28,18 @@ export const signupUser = async userData => {
     throw error;
   }
 };
+
+export const uploadProfileImage = async file => {
+  // FormData 객체 생성
+  const formData = new FormData();
+  formData.append('profileImage', file);
+
+  // 서버에 multi-part 형식으로 전송
+  const response = await apiClientIntercept.post('/auth/addProfile', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+
+  return response;
+};

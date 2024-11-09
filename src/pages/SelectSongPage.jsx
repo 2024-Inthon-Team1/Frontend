@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { IoHeadset } from 'react-icons/io5';
@@ -11,11 +12,12 @@ import { signupUser } from '../api/auth';
 const SelectSongPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { gender, birthDate, nickname, profileImage } = location.state || {};
+  const { gender, birthDate, nickname } = location.state || {};
   const [searchTerm, setSearchTerm] = useState('');
   const [tracks, setTracks] = useState([]);
   const [selectedTrack, setSelectedTrack] = useState(null);
   const [isSelected, setIsSelected] = useState(false);
+  const profileImage = useSelector(state => state.profile.profileImage);
 
   const handleSearch = async () => {
     const token = localStorage.getItem('spotifyAccessToken');
@@ -41,7 +43,7 @@ const SelectSongPage = () => {
   };
 
   const handleSignup = async () => {
-    if (selectedTrack) {
+    if (!selectedTrack) {
       const userData = {
         sex: gender,
         birthday: birthDate,
