@@ -43,7 +43,10 @@ const HomePage = () => {
         <span className="font-8extrabold text-[20px] my-[10px]">
           COLLECTION
         </span>
-        <MdOutlineAdd className="text-[24px]" />
+        <MdOutlineAdd
+          onClick={() => navigate('/addsong')}
+          className="text-[24px]"
+        />
       </div>
 
       {/* 3x3 Image Grid */}

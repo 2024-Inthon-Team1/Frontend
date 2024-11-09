@@ -40,9 +40,9 @@ const NavigationBar = () => {
         </button>
         <button
           className={`flex flex-col items-center transition-all duration-300 ${
-            activeIcon === '/chat' ? 'text-[#ff8000]' : 'text-[#aaa]'
+            activeIcon === '/chatlist' ? 'text-[#ff8000]' : 'text-[#aaa]'
           } hover:text-[#ff8000]`}
-          onClick={() => handleNavigate('/chat')}
+          onClick={() => handleNavigate('/chatlist')}
         >
           <IoChatbubble size={30} />
           <span className="font-5medium text-[14px]">CHAT</span>

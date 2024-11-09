@@ -8,7 +8,7 @@ const SelectSongPage = () => {
   return (
     <div className="bg-gray-200 w-full h-screen p-7 flex flex-col relative">
       <div className="flex-grow">
-        <div className="font-9black text-[48px] text-orange-500 text-left pt-8">
+        <div className="font-0logo text-[48px] text-orange-500 text-left pt-8">
           3.81mm
         </div>
         <div className="font-8extrabold text-2xl text-left pb-2">

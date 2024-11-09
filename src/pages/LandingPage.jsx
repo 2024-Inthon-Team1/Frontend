@@ -76,10 +76,18 @@ function LandingPage() {
       </div>
 
       <div className="absolute" style={{ top: '30vh', zIndex: 20 }}>
-        <div className="px-[20px] font-0logo text-[50px] text-[#ff8000]">
+        <div className="px-[20px] mt-[50px] font-0logo text-[50px] text-[#ff8000]">
           3.81mm
         </div>
       </div>
+      {/* <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
+        <img
+          src={kakaoLoginImage}
+          alt="Kakao Login"
+          onClick={handleKakaoLogin}
+          className="cursor-pointer"
+        />
+      </div> */}
       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
         <img
           src={kakaoLoginImage}
