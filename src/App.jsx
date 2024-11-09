@@ -5,6 +5,9 @@ import { useEffect } from 'react';
 import LoginPage from './pages/auth/LoginPage';
 import KakaoLoginPage from './pages/auth/KakaoLoginPage';
 import HomePage from './pages/HomePage';
+import RegisterPage from './pages/RegisterPage';
+import ChatPage from './pages/ChatPage';
+
 
 function App() {
   const kakaoClientId = import.meta.env.VITE_KAKAO_CLIENT_ID;
@@ -22,6 +25,8 @@ function App() {
         <Route path="/" element={<LoginPage />} />
         <Route path="home" element={<HomePage />} />
         <Route path="kakao/callback" element={<KakaoLoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/chat" element={<ChatPage />} />
       </Routes>
     </Router>
   );
