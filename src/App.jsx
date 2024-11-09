@@ -6,7 +6,7 @@ import NavigationBar from './components/mainFooter/NavigationBar';
 import KakaoLoginPage from './pages/auth/KakaoLoginPage';
 import HomePage from './pages/HomePage';
 import RegisterPage from './pages/RegisterPage';
-import ChatPage from './pages/ChatPage';
+// import ChatPage from './pages/ChatPage';
 import FindPage from './pages/FindPage';
 import ChatListPage from './pages/ChatListPage';
 import LandingPage from './pages/LandingPage';
