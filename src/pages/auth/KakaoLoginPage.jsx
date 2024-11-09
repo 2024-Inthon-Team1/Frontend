@@ -21,8 +21,8 @@ const KakaoLoginPage = () => {
         if (result) {
           console.log(result.data.accessToken, result.data.refreshToken);
           setCookies(result.data.accessToken, result.data.refreshToken);
-          dispatch(setUserId(result.userId));
-          if (result.isSignedUp) {
+          dispatch(setUserId(result.data.userId));
+          if (result.data.isSignedup) {
             navigate('/home');
           } else {
             navigate('/register');

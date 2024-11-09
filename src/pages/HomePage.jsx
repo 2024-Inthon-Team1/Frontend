@@ -1,35 +1,38 @@
-import React, { useState, useRef, useCallback, useEffect } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { FaAngleRight } from 'react-icons/fa';
 import { MdOutlineAdd, MdEdit } from 'react-icons/md'; // 연필 아이콘 추가
 import NavigationBar from '../components/mainFooter/NavigationBar';
 import albumImage from '../assets/album.jpeg';
-import defaultProfile from '../assets/BasicUser.svg'; // 기본 프로필 이미지 가져오기
+import defaultProfile from '../assets/BasicUser.svg';
+import { getUserProfile, getUserProfileImage } from '../api/user';
+import BasicUser from '../assets/BasicUser.svg';
 
 const HomePage = () => {
   const userId = useSelector(state => state.user?.userId || 'User');
-  const userProfile = useSelector(state => state.user?.profileImage); // 프로필 이미지 가져오기
   const navigate = useNavigate();
   const [items, setItems] = useState([]); // 현재 화면에 표시된 항목
   const [allItems, setAllItems] = useState([]); // 모든 항목을 저장
   const [visibleCount, setVisibleCount] = useState(12); // 현재 화면에 보이는 항목 수
   const [loading, setLoading] = useState(false); // 로딩 상태 추가
-  const [initialLoad, setInitialLoad] = useState(true); // 첫 로딩 상태 추가
+  const [initialLoad, setInitialLoad] = useState(true);
+  const [data, setData] = useState(null); // 첫 로딩 상태 추가
+  const [image, setImage] = useState(null);
 
-  // 모의 데이터 생성 함수 (전체 데이터 가져오기)
-  const generateMockData = () => {
-    return Array.from({ length: 100 }, (_, index) => ({
-      id: index,
-      imageUrl: albumImage,
-    }));
+  const fetchData = async () => {
+    const data = await getUserProfile();
+    setData(data);
+    const imageData = await getUserProfileImage();
+    setImage(imageData);
   };
 
-  // 처음에 모든 데이터를 한 번만 가져옴
   useEffect(() => {
-    const data = generateMockData();
-    setAllItems(data); // 전체 데이터를 저장
-    setItems(data.slice(0, visibleCount)); // 처음 보여줄 데이터 설정
+    fetchData();
+    // if (data) {
+    //   setAllItems(data); // 전체 데이터를 저장
+    //   setItems(data.slice(0, visibleCount)); // 처음 보여줄 데이터 설정
+    // }
     setInitialLoad(false); // 첫 로딩 완료 후 초기 로딩 상태 비활성화
   }, []);
 
@@ -88,13 +91,15 @@ const HomePage = () => {
           {/* 프로필 이미지 영역 */}
           <div className="w-12 h-12 rounded-full overflow-hidden">
             <img
-              src={userProfile || defaultProfile}
+              src={image || BasicUser}
               alt="User Profile"
               className="w-full h-full object-cover"
             />
           </div>
           <div className="flex flex-col ml-[20px]">
-            <div className="text-left text-[20px] font-7bold">{userId}</div>
+            <div className="text-left text-[20px] font-7bold">
+              {data?.username}
+            </div>
             <div className="text-left text-[#aaa] text-[16px] font-5medium mt-[-3px]">
               기본 정보 보기
             </div>
@@ -105,13 +110,19 @@ const HomePage = () => {
             onClick={() => navigate('/profile')}
           />
         </div>
-        <div className="flex px-5 py-[10px] bg-[#fff] rounded-[20px] mt-[20px] mx-5 items-center">
+        <div className="flex flex-col px-5 py-[10px] bg-[#fff] rounded-[20px] mt-[20px] mx-5 items-start">
           <div className="text-[18px] font-7bold">#MENOW</div>
-          <MdEdit
+          {/* <MdEdit
             size={24}
             className="text-[#aaa] ml-auto cursor-pointer"
             onClick={() => navigate('/edit')} // EditPage로 이동
-          />
+          /> */}
+          <div className="text-[16px] font-7bold text-[#ff8000]">
+            {data?.signatureSong}
+          </div>
+          <div className="text-[14px] font-6semibold text-[#ff8000]">
+            {data?.signatureSongArtist}
+          </div>
         </div>
         <div
           onClick={() => navigate('/search')}
@@ -131,7 +142,10 @@ const HomePage = () => {
           <span className="font-8extrabold text-[20px] my-[10px]">
             COLLECTION
           </span>
-          <MdOutlineAdd className="text-[24px]" />
+          <MdOutlineAdd
+            onClick={() => navigate('/addsong')}
+            className="text-[24px]"
+          />
         </div>
       </div>
 

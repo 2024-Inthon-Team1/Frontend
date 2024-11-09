@@ -5,6 +5,7 @@ import { FaRegCheckCircle } from 'react-icons/fa';
 
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+// import { addSongToCassette } from '../api/cassette';
 
 const AddSongPage = () => {
   const navigate = useNavigate();
@@ -12,6 +13,7 @@ const AddSongPage = () => {
   const [tracks, setTracks] = useState([]);
   const [selectedTrack, setSelectedTrack] = useState(null);
   const [isSelected, setIsSelected] = useState(false);
+  const [review, setReview] = useState('');
 
   const handleSearch = async () => {
     const token = localStorage.getItem('spotifyAccessToken');
