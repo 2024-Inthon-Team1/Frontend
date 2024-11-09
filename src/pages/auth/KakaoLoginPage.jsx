@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { authenticateWithKakao } from '../../api/auth';
 import { setUserId } from '../../redux/userSlice';
 
-import { getCookie, setCookies } from '../../api/token';
+import { setCookies } from '../../api/token';
 
 const KakaoLoginPage = () => {
   const navigate = useNavigate();
@@ -29,11 +29,9 @@ const KakaoLoginPage = () => {
           }
         } else {
           console.error('Failed to authenticate user');
-          navigate('/');
         }
       } catch (error) {
         console.error('Error authenticating user:', error);
-        navigate('/');
       }
     }
   };

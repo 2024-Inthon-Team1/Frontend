@@ -14,7 +14,7 @@ function LandingPage() {
   };
 
   return (
-    <div className="flex flex-col items-center space-y-4 h-[100vh] overflow-hidden relative">
+    <div className="flex flex-col items-center space-y-4 h-[100vh] overflow-hidden relative bg-none">
       {/* Overlay Layer */}
       <div className="absolute inset-0 bg-black opacity-50 z-10"></div>
 
@@ -79,7 +79,7 @@ function LandingPage() {
         <div className="px-[20px] mt-[50px] font-0logo text-[50px] text-[#ff8000]">
           3.81mm
         </div>
-        <div className="px-[20px] font-0logo text-[20px] text-[#ff8000]">
+        <div className="font-0logo text-[20px] text-[#ff8000]">
           SHOW YOUR TASTE
         </div>
       </div>
@@ -91,7 +91,7 @@ function LandingPage() {
           className="cursor-pointer"
         />
       </div> */}
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
+      <div className="absolute top-2/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
         <img
           src={kakaoLoginImage}
           alt="Kakao Login"
