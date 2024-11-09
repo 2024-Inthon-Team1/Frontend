@@ -1,14 +1,13 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { FaAngleRight } from 'react-icons/fa';
 import { MdOutlineAdd, MdEdit } from 'react-icons/md'; // 연필 아이콘 추가
 import NavigationBar from '../components/mainFooter/NavigationBar';
 import albumImage from '../assets/album.jpeg';
 import defaultProfile from '../assets/BasicUser.svg'; // 기본 프로필 이미지 가져오기
 import { FaCog } from 'react-icons/fa';
 
-const HomePage = () => {
+const OtherHomePage = ({ id }) => {
   const userId = useSelector(state => state.user?.userId || 'User');
   const userProfile = useSelector(state => state.user?.profileImage); // 프로필 이미지 가져오기
   const navigate = useNavigate();
@@ -18,21 +17,27 @@ const HomePage = () => {
   const [loading, setLoading] = useState(false); // 로딩 상태 추가
   const [initialLoad, setInitialLoad] = useState(true); // 첫 로딩 상태 추가
 
-  // 모의 데이터 생성 함수 (전체 데이터 가져오기)
-  const generateMockData = () => {
+  // 목 데이터를 생성하는 함수 (백엔드에서 데이터를 가져오는 것처럼 모방)
+  const fetchDataFromBackend = async userId => {
+    // 실제로는 이곳에서 백엔드에 요청을 보내 데이터를 가져옴 (예: axios, fetch 사용)
+    await new Promise(resolve => setTimeout(resolve, 500)); // 백엔드 통신 시의 지연 시간 모방
     return Array.from({ length: 100 }, (_, index) => ({
-      id: index,
+      id: `${userId}-${index}`, // 전달받은 userId와 index로 고유한 id 생성
       imageUrl: albumImage,
     }));
   };
 
-  // 처음에 모든 데이터를 한 번만 가져옴
+  // 처음에 데이터를 한 번만 가져옴
   useEffect(() => {
-    const data = generateMockData();
-    setAllItems(data); // 전체 데이터를 저장
-    setItems(data.slice(0, visibleCount)); // 처음 보여줄 데이터 설정
-    setInitialLoad(false); // 첫 로딩 완료 후 초기 로딩 상태 비활성화
-  }, []);
+    const loadInitialData = async () => {
+      const data = await fetchDataFromBackend(id);
+      setAllItems(data); // 전체 데이터를 저장
+      setItems(data.slice(0, visibleCount)); // 처음 보여줄 데이터 설정
+      setInitialLoad(false); // 첫 로딩 완료 후 초기 로딩 상태 비활성화
+    };
+
+    loadInitialData();
+  }, [id]); // id가 변경될 때마다 데이터를 다시 가져오도록 설정
 
   // 스크롤 시 추가 데이터 로드
   const loadMoreItems = async () => {
@@ -95,16 +100,13 @@ const HomePage = () => {
             />
           </div>
           <div className="flex flex-col ml-[20px]">
-            <div className="text-left text-[20px] font-7bold">{userId}</div>
+            <div className="flex flex-row align-center text-left text-[20px] font-7bold">
+              {userId}
+            </div>
             <div className="text-left text-[#aaa] text-[16px] font-5medium mt-[-3px]">
               기본 정보 보기
             </div>
           </div>
-          {/* <FaAngleRight
-            size={24}
-            className="text-[#aaa] ml-auto mt-[10px] cursor-pointer"
-            onClick={() => navigate('/profile')}
-          /> */}
           <FaCog
             size={24}
             className="text-[#aaa] ml-auto mt-[10px] cursor-pointer"
@@ -113,18 +115,13 @@ const HomePage = () => {
         </div>
         <div className="flex px-5 py-[10px] bg-[#fff] rounded-[20px] mt-[20px] mx-5 items-center">
           <div className="text-[18px] font-7bold">#MENOW</div>
-          {/* <MdEdit
-            size={24}
-            className="text-[#aaa] ml-auto cursor-pointer"
-            onClick={() => navigate('/edit')} // EditPage로 이동
-          /> */}
         </div>
-        {/* <div
+        <div
           onClick={() => navigate('/search')}
           className="mt-[20px] bg-[#ddd] rounded-xl mx-[20px] font-7bold text-[20px] py-[10px]"
         >
           테이프 선물하기 🎁
-        </div> */}
+        </div>
         <div
           className="h-[20px] bg-[#ddd] mt-[20px]"
           style={{
@@ -142,7 +139,7 @@ const HomePage = () => {
       </div>
 
       {/* 스크롤 가능한 컨텐츠 영역 */}
-      <div className="pt-[280px] overflow-auto h-full pb-[100px]">
+      <div className="pt-[380px] overflow-auto h-full pb-[100px]">
         <div className="grid grid-cols-3 gap-1 mx-5">
           {items.map((item, index) => {
             const isLastItem = index === items.length - 1;
@@ -179,4 +176,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default OtherHomePage;
