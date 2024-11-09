@@ -8,6 +8,7 @@ import albumImage from '../assets/album.jpeg';
 import defaultProfile from '../assets/BasicUser.svg';
 import { getUserProfile, getUserProfileImage } from '../api/user';
 import BasicUser from '../assets/BasicUser.svg';
+import { FaCog } from 'react-icons/fa';
 
 const HomePage = () => {
   const userId = useSelector(state => state.user?.userId || 'User');
@@ -104,7 +105,12 @@ const HomePage = () => {
               기본 정보 보기
             </div>
           </div>
-          <FaAngleRight
+          {/* <FaAngleRight
+            size={24}
+            className="text-[#aaa] ml-auto mt-[10px] cursor-pointer"
+            onClick={() => navigate('/profile')}
+          /> */}
+          <FaCog
             size={24}
             className="text-[#aaa] ml-auto mt-[10px] cursor-pointer"
             onClick={() => navigate('/profile')}
@@ -123,68 +129,66 @@ const HomePage = () => {
           <div className="text-[14px] font-6semibold text-[#ff8000]">
             {data?.signatureSongArtist}
           </div>
-        </div>
-        <div
+          {/* <div
           onClick={() => navigate('/search')}
           className="mt-[20px] bg-[#ddd] rounded-xl mx-[20px] font-7bold text-[20px] py-[10px]"
         >
           테이프 선물하기 🎁
+        </div> */}
+          <div
+            className="h-[20px] bg-[#ddd] mt-[20px]"
+            style={{
+              backgroundImage: "url('./assets/MainBg.png')",
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            }}
+          ></div>
+          <div className="flex justify-between items-center mx-5 rounded-xl">
+            <span className="font-8extrabold text-[20px] my-[10px]">
+              COLLECTION
+            </span>
+            <MdOutlineAdd
+              onClick={() => navigate('/addsong')}
+              className="text-[24px]"
+            />
+          </div>
         </div>
-        <div
-          className="h-[20px] bg-[#ddd] mt-[20px]"
-          style={{
-            backgroundImage: "url('./assets/MainBg.png')",
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-          }}
-        ></div>
-        <div className="flex justify-between items-center mx-5 rounded-xl">
-          <span className="font-8extrabold text-[20px] my-[10px]">
-            COLLECTION
-          </span>
-          <MdOutlineAdd
-            onClick={() => navigate('/addsong')}
-            className="text-[24px]"
-          />
+
+        {/* 스크롤 가능한 컨텐츠 영역 */}
+        <div className="pt-[280px] overflow-auto h-full pb-[100px]">
+          <div className="grid grid-cols-3 gap-1 mx-5">
+            {items.map((item, index) => {
+              const isLastItem = index === items.length - 1;
+              return (
+                <div
+                  key={item.id}
+                  ref={isLastItem ? lastItemRef : null} // 마지막 요소에만 ref 추가
+                  className="w-full aspect-square cursor-pointer"
+                >
+                  <img
+                    src={item.imageUrl}
+                    alt="Album"
+                    className="w-full h-full object-cover"
+                    onClick={() =>
+                      navigate('/albumscroll', {
+                        state: { selectedIndex: index },
+                      })
+                    }
+                  />
+                </div>
+              );
+            })}
+          </div>
         </div>
-      </div>
 
-      {/* 스크롤 가능한 컨텐츠 영역 */}
-      <div className="pt-[380px] overflow-auto h-full pb-[100px]">
-        <div className="grid grid-cols-3 gap-1 mx-5">
-          {items.map((item, index) => {
-            const isLastItem = index === items.length - 1;
-            return (
-              <div
-                key={item.id}
-                ref={isLastItem ? lastItemRef : null} // 마지막 요소에만 ref 추가
-                className="w-full aspect-square cursor-pointer"
-              >
-                <img
-                  src={item.imageUrl}
-                  alt="Album"
-                  className="w-full h-full object-cover"
-                  onClick={() =>
-                    navigate('/albumscroll', {
-                      state: { selectedIndex: index },
-                    })
-                  }
-                />
-              </div>
-            );
-          })}
+        {/* 첫 로딩 이후 스크롤에 의한 로딩 시에만 모달 형태의 로딩 스피너 표시 */}
+        {!initialLoad && loading && <LoadingSpinner />}
+
+        {/* NavigationBar는 항상 화면 최상단에 있도록 설정 */}
+        <div className="fixed bottom-0 left-0 w-full z-50">
+          <NavigationBar active="my" />
         </div>
-      </div>
-
-      {/* 첫 로딩 이후 스크롤에 의한 로딩 시에만 모달 형태의 로딩 스피너 표시 */}
-      {!initialLoad && loading && <LoadingSpinner />}
-
-      {/* NavigationBar는 항상 화면 최상단에 있도록 설정 */}
-      <div className="fixed bottom-0 left-0 w-full z-50">
-        <NavigationBar active="my" />
-      </div>
+      </div>{' '}
     </div>
   );
 };
-
-export default HomePage;

@@ -17,6 +17,7 @@ import SearchPage from './pages/SearchPage';
 import AddSongPage from './pages/AddSongPage';
 import SpotifyCallback from './pages/SpotifyCallback';
 import { authenticateSpotify } from './api/spotifyApi';
+import OtherHomePage from './pages/OtherHomePage';
 
 function App() {
   const kakaoClientId = import.meta.env.VITE_KAKAO_CLIENT_ID;
@@ -47,7 +48,7 @@ function App() {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/albumscroll" element={<SrollAlbumPage />} />
         <Route path="/addsong" element={<AddSongPage />} />
-        <Route path="edit" element={<ProfilePage />} />
+        <Route path="/otherhome/:id" element={<OtherHomePage />} />
       </Routes>
     </Router>
   );

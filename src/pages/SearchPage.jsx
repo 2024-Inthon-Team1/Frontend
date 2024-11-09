@@ -1,5 +1,4 @@
 import { FaAngleLeft } from 'react-icons/fa6';
-import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import ListBg from '../assets/ListBg.png';
@@ -13,15 +12,21 @@ import SpotifyPlayButton from '../components/PlayButton';
 import { FiSearch } from 'react-icons/fi';
 import TapeModal from '../components/TapeModal';
 import { getAccessToken } from '../api/spotifyApi';
+import { useEffect, useState, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 
 const SearchPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [tracks, setTracks] = useState([]);
   const [selectedTracks, setSelectedTracks] = useState([]);
+  const [page, setPage] = useState(1);
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const trackContainerRef = useRef(null);
+  const location = useLocation();
+  const { userId } = location.state || {};
 
-  const handleSearch = async () => {
+  const handleSearch = async (isNewSearch = true) => {
     const token = getAccessToken();
 
     if (!token) {
@@ -32,18 +37,46 @@ const SearchPage = () => {
     }
 
     try {
+      const offset = (page - 1) * 10;
       const response = await axios.get(
-        `https://api.spotify.com/v1/search?q=${encodeURIComponent(searchTerm)}&type=track&limit=10`,
+        `https://api.spotify.com/v1/search?q=${encodeURIComponent(searchTerm)}&type=track&limit=10&offset=${offset}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
-      setTracks(response.data.tracks.items);
+
+      if (isNewSearch) {
+        setTracks(response.data.tracks.items);
+      } else {
+        setTracks(prevTracks => [...prevTracks, ...response.data.tracks.items]);
+      }
     } catch (error) {
       console.error('Error fetching data from Spotify API', error);
     }
+  };
+
+  // Handle scroll to load more tracks
+  const handleScroll = () => {
+    if (trackContainerRef.current) {
+      const { scrollTop, scrollHeight, clientHeight } =
+        trackContainerRef.current;
+      if (scrollTop + clientHeight >= scrollHeight) {
+        setPage(prevPage => prevPage + 1);
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (page > 1) {
+      handleSearch(false);
+    }
+  }, [page]);
+
+  // 선택된 트랙인지 확인하는 함수 정의
+  const isTrackSelected = trackId => {
+    return selectedTracks.some(track => track.id === trackId);
   };
 
   const addTrackToList = track => {
@@ -54,12 +87,33 @@ const SearchPage = () => {
     }
   };
 
-  const isTrackSelected = trackId => {
-    return selectedTracks.some(track => track.id === trackId);
-  };
+  const handleGift = async () => {
+    if (!userId || selectedTracks.length === 0) {
+      alert('유효하지 않은 사용자 ID거나 선택된 트랙이 없습니다.');
+      return;
+    }
 
+    try {
+      const response = await axios.post('/api/send-gift', {
+        userId, // userId 포함
+        tracks: selectedTracks.map(track => ({
+          id: track.id,
+          name: track.name,
+          artists: track.artists.map(artist => artist.name).join(', '),
+        })),
+      });
+
+      if (response.status === 200) {
+        setIsModalOpen(true); // 선물하기가 성공적으로 완료되면 모달을 오픈
+      }
+    } catch (error) {
+      console.error('Error sending gift', error);
+      alert('선물하기 중 오류가 발생했습니다.');
+    }
+  };
   return (
     <div className="min-h-screen w-full pb-[100px]">
+      {/* 상단 네비게이션 */}
       <div className="py-8">
         <div className="w-full flex flex-col justify-center items-center px-5">
           <div className="w-full flex justify-start pt-[30px]">
@@ -83,7 +137,6 @@ const SearchPage = () => {
             alt="List Background"
             className="w-full h-auto rounded-md shadow-sm"
           />
-
           <div className="absolute inset-0 bg-white/0 p-2 rounded-md text-left text-[16px] space-y-1 pl-10 pt-[65px]">
             {selectedTracks.length > 0 ? (
               selectedTracks.map((track, index) => (
@@ -115,13 +168,21 @@ const SearchPage = () => {
             onChange={e => setSearchTerm(e.target.value)}
           />
           <FiSearch
-            onClick={() => handleSearch()}
+            onClick={() => {
+              setPage(1); // 새로운 검색 시 페이지 번호를 초기화
+              handleSearch(true);
+            }}
             size={20}
             className="text-gray-500 mr-2"
           />
         </div>
 
-        <div className="w-full max-w-md space-y-2">
+        {/* 트랙 리스트 스크롤 가능한 영역 */}
+        <div
+          ref={trackContainerRef}
+          onScroll={handleScroll}
+          className="w-full max-w-md h-[300px] overflow-y-auto space-y-2 border-t border-b border-gray-300 mt-4"
+        >
           {tracks.map(track => (
             <div
               key={track.id}
@@ -154,24 +215,15 @@ const SearchPage = () => {
         </div>
       </div>
 
-      {/* <SpotifyPlayButton trackId="3Nrfpe0tUJi4K4DXYWgMUX" /> */}
-      {/* 
-      <div
-      className="fixed bottom-0 w-full flex justify-around items-center bg-gray-100 pt-2 pb-6 border-t border-gray-300 z-60 rounded-tl-xl rounded-tr-xl"
-      style={{ boxShadow: '0 -3px 6px rgba(0, 0, 0, 0.08)' }}
-    > */}
       {/* 선물하기 버튼 하단 고정 */}
-      <div className="fixed bottom-0 w-full ">
+      <div className="fixed bottom-0 w-full">
         <button
-          onClick={() => setIsModalOpen(true)} // 모달 열기
-          className="w-full py-3 bg-[#ff8000] rounded-xl text-white text-[20px] font-7bold  pt-4 pb-6 border-t  z-60 rounded-tl-xl rounded-tr-xl"
+          onClick={handleGift}
+          className="w-full py-3 bg-[#ff8000] rounded-xl text-white text-[20px] font-7bold pt-4 pb-6 border-t z-60 rounded-tl-xl rounded-tr-xl"
         >
           선물하기 🎁
         </button>
       </div>
-
-      {/* <PlayButton track_id="7pKfPomDEeI4TPT6EOYjn9" />
-      <PlayBar track_id="7pKfPomDEeI4TPT6EOYjn9" /> */}
 
       <TapeModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <div className="text-center font-7bold text-[20px] mb-4">
@@ -180,7 +232,7 @@ const SearchPage = () => {
         <img
           src={TapeImage}
           alt="Tape"
-          className="mx-auto w-[150px] h-auto animate-bounceScale my-4" // 애니메이션 클래스 추가
+          className="mx-auto w-[150px] h-auto animate-bounceScale my-4"
         />
       </TapeModal>
 
