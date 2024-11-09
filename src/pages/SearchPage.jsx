@@ -13,6 +13,7 @@ import { FiSearch } from 'react-icons/fi';
 import TapeModal from '../components/TapeModal';
 import { getAccessToken } from '../api/spotifyApi';
 import { useEffect, useState, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 
 const SearchPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -22,6 +23,8 @@ const SearchPage = () => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const trackContainerRef = useRef(null);
+  const location = useLocation();
+  const { userId } = location.state || {};
 
   const handleSearch = async (isNewSearch = true) => {
     const token = getAccessToken();
@@ -84,6 +87,30 @@ const SearchPage = () => {
     }
   };
 
+  const handleGift = async () => {
+    if (!userId || selectedTracks.length === 0) {
+      alert('유효하지 않은 사용자 ID거나 선택된 트랙이 없습니다.');
+      return;
+    }
+
+    try {
+      const response = await axios.post('/api/send-gift', {
+        userId, // userId 포함
+        tracks: selectedTracks.map(track => ({
+          id: track.id,
+          name: track.name,
+          artists: track.artists.map(artist => artist.name).join(', '),
+        })),
+      });
+
+      if (response.status === 200) {
+        setIsModalOpen(true); // 선물하기가 성공적으로 완료되면 모달을 오픈
+      }
+    } catch (error) {
+      console.error('Error sending gift', error);
+      alert('선물하기 중 오류가 발생했습니다.');
+    }
+  };
   return (
     <div className="min-h-screen w-full pb-[100px]">
       {/* 상단 네비게이션 */}
@@ -191,7 +218,7 @@ const SearchPage = () => {
       {/* 선물하기 버튼 하단 고정 */}
       <div className="fixed bottom-0 w-full">
         <button
-          onClick={() => setIsModalOpen(true)}
+          onClick={handleGift}
           className="w-full py-3 bg-[#ff8000] rounded-xl text-white text-[20px] font-7bold pt-4 pb-6 border-t z-60 rounded-tl-xl rounded-tr-xl"
         >
           선물하기 🎁
