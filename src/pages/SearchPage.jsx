@@ -3,10 +3,14 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import ListBg from '../assets/ListBg.png';
+
+import PlayButton from '../components/PlayButton';
+
 import TapeImage from '../assets/tape.png';
 import SpotifyPlayButton from '../components/PlayButton';
 import { FiSearch } from 'react-icons/fi';
 import TapeModal from '../components/TapeModal';
+
 
 const SearchPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -147,7 +151,41 @@ const SearchPage = () => {
         </button>
       </div>
 
-      {/* 모달 컴포넌트 호출 */}
+
+      <div className="w-full max-w-md space-y-2">
+        {tracks.map(track => (
+          <div
+            key={track.id}
+            className="flex items-center px-3 py-2 bg-gray-200 rounded-lg space-x-3 border border-gray-300"
+          >
+            <img
+              src={track.album.images[2]?.url}
+              alt={track.name}
+              className="w-10 h-10 rounded bg-gray-300"
+            />
+            <div className="flex-1">
+              <h3 className="text-sm font-medium truncate">{track.name}</h3>
+              <p className="text-xs text-gray-600 truncate">
+                {track.artists.map(artist => artist.name).join(', ')}
+              </p>
+            </div>
+            <button
+              onClick={() => addTrackToList(track)}
+              disabled={isTrackSelected(track.id)}
+              className={`text-xl ${
+                isTrackSelected(track.id)
+                  ? 'text-gray-400 cursor-not-allowed'
+                  : 'text-gray-500 hover:text-gray-700'
+              }`}
+            >
+              +
+            </button>
+          </div>
+        ))}
+      </div>
+      <PlayButton track_id="7pKfPomDEeI4TPT6EOYjn9" />
+      <PlayBar track_id="7pKfPomDEeI4TPT6EOYjn9" />
+
       <TapeModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <div className="text-center font-7bold text-[20px] mb-4">
           선물 완료 🎉
