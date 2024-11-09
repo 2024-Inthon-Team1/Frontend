@@ -16,6 +16,19 @@ export default {
         '2extralight': ['Freesentation-2ExtraLight', 'sans-serif'],
         '1thin': ['Freesentation-1Thin', 'sans-serif'],
       },
+      keyframes: {
+        scrollHorizontal: {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-50%)' },
+        },
+        scrollHorizontalRight: {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(50%)' },
+        },
+      },
+      animation: {
+        scrollHorizontal: 'scrollHorizontal 15s linear infinite',
+      },
     },
   },
   plugins: [typography],
