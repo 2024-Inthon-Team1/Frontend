@@ -3,7 +3,7 @@ import BlueTape from '../assets/Tapes/BlueTape.png';
 import RedTape from '../assets/Tapes/RedTape.png';
 import IndigoTape from '../assets/Tapes/IndigoTape.png';
 import PinkTape from '../assets/Tapes/PinkTape.png';
-import kakaoLoginImage from '../assets/kakao_login.png';
+import kakaoLoginImage from '../assets/kakaoLogin.svg';
 
 function LandingPage() {
   const restApiKey = import.meta.env.VITE_REST_API_KEY;
@@ -78,6 +78,9 @@ function LandingPage() {
       <div className="absolute" style={{ top: '30vh', zIndex: 20 }}>
         <div className="px-[20px] mt-[50px] font-0logo text-[50px] text-[#ff8000]">
           3.81mm
+        </div>
+        <div className="px-[20px] font-0logo text-[20px] text-[#ff8000]">
+          SHOW YOUR TASTE
         </div>
       </div>
       {/* <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">

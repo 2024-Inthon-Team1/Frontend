@@ -1,7 +1,9 @@
+
 import { FaAngleRight } from 'react-icons/fa6';
 import { IoPlayCircle } from 'react-icons/io5';
 import { IoPlayForward } from 'react-icons/io5';
 import { IoPlayBack } from 'react-icons/io5';
+
 
 const FindPage = () => {
   const findings = [
@@ -17,6 +19,7 @@ const FindPage = () => {
     <div className="bg-[#eee] h-screen w-full">
       <div className="h-20"></div>
       <div className="w-full h-14 flex items-center justify-between px-11 mt-[20px]">
+
         <div className="flex items-center">
           <div className="rounded-full h-9 w-9 bg-gray-300 mr-3"></div>
           <div className="font-7bold text-[20px]">안지형님의 #MENOW</div>

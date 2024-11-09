@@ -33,11 +33,11 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route element={<NavigationBar />}>
-          <Route path="home" element={<HomePage />} />
-          <Route path="chatlist" element={<ChatListPage />} />
-          <Route path="find" element={<FindPage />} />
-        </Route>
+        {/* <Route element={<NavigationBar />}></Route> */}
+        <Route path="home" element={<HomePage />} />
+        {/* <Route path="chat" element={<ChatPage />} /> */}
+        <Route path="find" element={<FindPage />} />
+
         <Route path="/" element={<LandingPage />} />
         <Route path="/search" element={<SearchPage />} />
         <Route path="kakao/callback" element={<KakaoLoginPage />} />
@@ -47,6 +47,7 @@ function App() {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/albumscroll" element={<SrollAlbumPage />} />
         <Route path="/addsong" element={<AddSongPage />} />
+        <Route path="edit" element={<ProfilePage />} />
       </Routes>
     </Router>
   );
