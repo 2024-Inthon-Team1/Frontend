@@ -11,9 +11,9 @@ function ChatListPage() {
     // 예시 데이터로서 가짜 데이터를 사용합니다.
     const fetchChatList = async () => {
       const dummyData = [
-        { id: 1, name: "홍길동", lastMessage: "안녕하세요!", time: "오후 2:30" },
-        { id: 2, name: "김철수", lastMessage: "오늘 회의는?", time: "오전 10:15" },
-        { id: 3, name: "이영희", lastMessage: "잘 지내세요?", time: "어제" }
+        { roomId: 1, name: "홍길동", lastMessage: "안녕하세요!", time: "오후 2:30" },
+        { roomId: 2, name: "김철수", lastMessage: "오늘 회의는?", time: "오전 10:15" },
+        { roomId: 3, name: "이영희", lastMessage: "잘 지내세요?", time: "어제" }
       ];
       setChatList(dummyData);
     };
