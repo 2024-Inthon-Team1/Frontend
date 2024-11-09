@@ -2,7 +2,7 @@ import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { FaAngleRight } from 'react-icons/fa';
-import { MdOutlineAdd } from 'react-icons/md';
+import { MdOutlineAdd, MdEdit } from 'react-icons/md'; // 연필 아이콘 추가
 import NavigationBar from '../components/mainFooter/NavigationBar';
 import albumImage from '../assets/album.jpeg';
 import defaultProfile from '../assets/BasicUser.svg'; // 기본 프로필 이미지 가져오기
@@ -83,7 +83,7 @@ const HomePage = () => {
   return (
     <div className="bg-[#eee] h-screen w-full relative">
       {/* 고정된 상단 컨테이너 */}
-      <div className="fixed top-0 w-full z-30 bg-[#eee] pt-[50px] pb-[0px]">
+      <div className="fixed top-0 w-full z-30 bg-[#eee] pt-[20px] pb-[0px]">
         <div className="flex justify-center pt-[50px] mx-5">
           {/* 프로필 이미지 영역 */}
           <div className="w-12 h-12 rounded-full overflow-hidden">
@@ -105,14 +105,19 @@ const HomePage = () => {
             onClick={() => navigate('/profile')}
           />
         </div>
-        <div className="flex px-5 py-[10px] bg-[#fff] rounded-[20px] mt-[20px] mx-5">
+        <div className="flex px-5 py-[10px] bg-[#fff] rounded-[20px] mt-[20px] mx-5 items-center">
           <div className="text-[18px] font-7bold">#MENOW</div>
+          <MdEdit
+            size={24}
+            className="text-[#aaa] ml-auto cursor-pointer"
+            onClick={() => navigate('/edit')} // EditPage로 이동
+          />
         </div>
         <div
           onClick={() => navigate('/search')}
           className="mt-[20px] bg-[#ddd] rounded-xl mx-[20px] font-7bold text-[20px] py-[10px]"
         >
-          카세트테이프 선물하기 🎁
+          테이프 선물하기 🎁
         </div>
         <div
           className="h-[20px] bg-[#ddd] mt-[20px]"
@@ -129,7 +134,6 @@ const HomePage = () => {
           <MdOutlineAdd className="text-[24px]" />
         </div>
       </div>
-
 
       {/* 스크롤 가능한 컨텐츠 영역 */}
       <div className="pt-[380px] overflow-auto h-full pb-[100px]">
@@ -156,7 +160,6 @@ const HomePage = () => {
             );
           })}
         </div>
-
       </div>
 
       {/* 첫 로딩 이후 스크롤에 의한 로딩 시에만 모달 형태의 로딩 스피너 표시 */}

@@ -12,6 +12,7 @@ import TapeImage from '../assets/tape.png';
 import SpotifyPlayButton from '../components/PlayButton';
 import { FiSearch } from 'react-icons/fi';
 import TapeModal from '../components/TapeModal';
+import { getAccessToken } from '../api/spotifyApi';
 
 const SearchPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -21,11 +22,18 @@ const SearchPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleSearch = async () => {
-    const token = localStorage.getItem('spotifyAccessToken');
+    const token = getAccessToken();
+
+    if (!token) {
+      console.error(
+        'Spotify access token is missing or expired. Redirecting to authenticate...'
+      );
+      return;
+    }
 
     try {
       const response = await axios.get(
-        `https://api.spotify.com/v1/search?q=${encodeURIComponent(searchTerm)}&type=track&limit=10`, // limit=10 추가
+        `https://api.spotify.com/v1/search?q=${encodeURIComponent(searchTerm)}&type=track&limit=10`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -51,17 +59,17 @@ const SearchPage = () => {
   };
 
   return (
-    <div className="bg-[#ff8000] min-h-screen w-full pb-[100px]">
+    <div className="min-h-screen w-full pb-[100px]">
       <div className="py-8">
         <div className="w-full flex flex-col justify-center items-center px-5">
-          <div className="w-full flex justify-start pt-[80px]">
+          <div className="w-full flex justify-start pt-[30px]">
             <FaAngleLeft
               size={24}
               className="cursor-pointer"
               onClick={() => navigate('/home')}
             />
-            <div className="absolute font-8extrabold text-[22px] left-1/2 transform -translate-x-1/2 font-bold text-lg">
-              카세트테이프 선물하기
+            <div className="absolute font-8extrabold text-[22px] left-1/2 transform -translate-x-1/2 font-bold text-xl">
+              테이프 선물하기
             </div>
           </div>
         </div>
@@ -107,7 +115,6 @@ const SearchPage = () => {
             onChange={e => setSearchTerm(e.target.value)}
           />
           <FiSearch
-
             onClick={() => handleSearch()}
             size={20}
             className="text-gray-500 mr-2"
@@ -118,7 +125,7 @@ const SearchPage = () => {
           {tracks.map(track => (
             <div
               key={track.id}
-              className="flex items-center px-3 py-2 bg-[#FEF3E2] rounded-lg space-x-3 border border-gray-300"
+              className="flex items-center px-3 py-2 bg-[#eee] rounded-lg space-x-3 border border-gray-300"
             >
               <img
                 src={track.album.images[2]?.url}
@@ -148,21 +155,23 @@ const SearchPage = () => {
       </div>
 
       {/* <SpotifyPlayButton trackId="3Nrfpe0tUJi4K4DXYWgMUX" /> */}
-
+      {/* 
+      <div
+      className="fixed bottom-0 w-full flex justify-around items-center bg-gray-100 pt-2 pb-6 border-t border-gray-300 z-60 rounded-tl-xl rounded-tr-xl"
+      style={{ boxShadow: '0 -3px 6px rgba(0, 0, 0, 0.08)' }}
+    > */}
       {/* 선물하기 버튼 하단 고정 */}
-      <div className="fixed bottom-0 w-full max-w-md mx-auto left-0 right-0 mb-5 px-[20px]">
+      <div className="fixed bottom-0 w-full ">
         <button
           onClick={() => setIsModalOpen(true)} // 모달 열기
-          className="w-full py-3 bg-[#219B9D] rounded-xl text-white text-[20px] font-7bold"
+          className="w-full py-3 bg-[#ff8000] rounded-xl text-white text-[20px] font-7bold  pt-4 pb-6 border-t  z-60 rounded-tl-xl rounded-tr-xl"
         >
           선물하기 🎁
         </button>
       </div>
 
-
       {/* <PlayButton track_id="7pKfPomDEeI4TPT6EOYjn9" />
       <PlayBar track_id="7pKfPomDEeI4TPT6EOYjn9" /> */}
-
 
       <TapeModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <div className="text-center font-7bold text-[20px] mb-4">

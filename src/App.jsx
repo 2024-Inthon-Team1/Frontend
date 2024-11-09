@@ -33,10 +33,9 @@ function App() {
   return (
     <Router>
       <Routes>
-
         {/* <Route element={<NavigationBar />}></Route> */}
         <Route path="home" element={<HomePage />} />
-        <Route path="chat" element={<ChatPage />} />
+        {/* <Route path="chat" element={<ChatPage />} /> */}
         <Route path="find" element={<FindPage />} />
 
         <Route path="/" element={<LandingPage />} />
@@ -48,6 +47,7 @@ function App() {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/albumscroll" element={<SrollAlbumPage />} />
         <Route path="/addsong" element={<AddSongPage />} />
+        <Route path="edit" element={<ProfilePage />} />
       </Routes>
     </Router>
   );
