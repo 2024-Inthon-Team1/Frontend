@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { uploadProfileImage } from '../api/auth';
 
 import { IoIosArrowDown } from 'react-icons/io';
 
@@ -14,30 +15,44 @@ const RegisterPage = () => {
   const navigate = useNavigate();
 
   const handleContinue = () => {
+    const formattedMonth = birthMonth.padStart(2, '0');
+    const formattedDay = birthDay.padStart(2, '0');
+
     const userData = {
       gender,
-      birthDate: `${birthYear}-${birthMonth}-${birthDay}`,
+      birthDate: `${birthYear}-${formattedMonth}-${formattedDay}`, // 항상 두 자리로 설정
       nickname,
-      profileImage,
     };
 
     navigate('/selectsong', { state: userData });
+  };
+
+  const handleUploadAndContinue = async () => {
+    if (profileImage) {
+      try {
+        const uploadedData = await uploadProfileImage(profileImage);
+        handleContinue(); // navigate 호출
+      } catch (error) {
+        console.error('파일 업로드 중 오류 발생:', error);
+        alert('파일 업로드 중 오류가 발생했습니다.');
+      }
+    } else {
+      handleContinue();
+    }
   };
 
   // 생일 데이터 : 년, 월, 일
   const currentYear = new Date().getFullYear();
   const BIRTHDAY_YEAR_LIST = Array.from(
     { length: currentYear - 1920 + 1 },
-    (_, i) => `${1920 + i}년`
+    (_, i) => `${1920 + i}`
   );
-  const BIRTHDAY_MONTH_LIST = Array.from(
-    { length: 12 },
-    (_, i) => `${i + 1}월`
-  );
-  const BIRTHDAY_DAY_LIST = Array.from({ length: 31 }, (_, i) => `${i + 1}일`);
+  const BIRTHDAY_MONTH_LIST = Array.from({ length: 12 }, (_, i) => `${i + 1}`);
+  const BIRTHDAY_DAY_LIST = Array.from({ length: 31 }, (_, i) => `${i + 1}`);
 
   const handleFileChange = e => {
-    setProfileImage(e.target.files[0]);
+    const file = e.target.files[0];
+    setProfileImage(file);
     setCurrentStep(4);
   };
 
@@ -206,7 +221,7 @@ const RegisterPage = () => {
         <>
           <div className="w-full mt-5" style={{ marginTop: '20px' }}>
             <button
-              onClick={handleContinue}
+              onClick={handleUploadAndContinue}
               className="w-full h-12 rounded-xl bg-[#219B9D] font-7bold text-[#fff] text-[20px]"
             >
               계속
