@@ -1,17 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { FaPlay, FaPause } from 'react-icons/fa';
 
-const PlayButton = ({ track_id }) => {
+const PlayBar = ({ track_id }) => {
   const [token, setToken] = useState(null);
   const [player, setPlayer] = useState(null);
   const [deviceId, setDeviceId] = useState(null);
   const [isPaused, setIsPaused] = useState(true);
-  const [position, setPosition] = useState(0); // 현재 위치 저장
+  const [position, setPosition] = useState(0);
+  const [duration, setDuration] = useState(0);
   const [isPlayerReady, setIsPlayerReady] = useState(false);
 
   useEffect(() => {
     const savedToken = localStorage.getItem('spotifyAccessToken');
     if (savedToken) setToken(savedToken);
+
+    if (token && track_id) {
+      // 트랙 정보를 가져와서 duration 설정
+      fetch(`https://api.spotify.com/v1/tracks/${track_id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then(response => response.json())
+        .then(data => setDuration(data.duration_ms))
+        .catch(error =>
+          console.error('Failed to fetch track duration:', error)
+        );
+    }
 
     const existingScript = document.querySelector(
       'script[src="https://sdk.scdn.co/spotify-player.js"]'
@@ -39,7 +54,8 @@ const PlayButton = ({ track_id }) => {
         playerInstance.addListener('player_state_changed', state => {
           if (state) {
             setIsPaused(state.paused);
-            setPosition(state.position); // 현재 위치 업데이트
+            setPosition(state.position);
+            setDuration(state.duration);
           }
         });
 
@@ -52,7 +68,21 @@ const PlayButton = ({ track_id }) => {
     return () => {
       if (player) player.disconnect();
     };
-  }, [token]);
+  }, [token, track_id]);
+
+  useEffect(() => {
+    let interval = null;
+    if (!isPaused && player) {
+      interval = setInterval(() => {
+        player.getCurrentState().then(state => {
+          if (state) setPosition(state.position);
+        });
+      }, 1000);
+    } else if (interval) {
+      clearInterval(interval);
+    }
+    return () => clearInterval(interval);
+  }, [isPaused, player]);
 
   const handleLogin = () => {
     window.location.href = `${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent(
@@ -64,7 +94,6 @@ const PlayButton = ({ track_id }) => {
     if (!deviceId || !isPlayerReady) return;
 
     if (isPaused) {
-      // 일시정지 위치에서 재생
       fetch(`https://api.spotify.com/v1/me/player/play?device_id=${deviceId}`, {
         method: 'PUT',
         headers: {
@@ -73,7 +102,7 @@ const PlayButton = ({ track_id }) => {
         },
         body: JSON.stringify({
           uris: [`spotify:track:${track_id}`],
-          position_ms: position, // 현재 위치에서 재생 시작
+          position_ms: position,
         }),
       })
         .then(response => {
@@ -88,20 +117,58 @@ const PlayButton = ({ track_id }) => {
     }
   };
 
+  const formatTime = ms => {
+    const minutes = Math.floor(ms / 60000);
+    const seconds = ((ms % 60000) / 1000).toFixed(0);
+    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+  };
+
   return (
     <div>
       {!token ? (
         <button onClick={handleLogin}>Spotify 로그인</button>
       ) : (
-        <button
-          onClick={togglePlayPause}
-          disabled={!deviceId || !isPlayerReady}
-        >
-          {isPaused ? <FaPlay /> : <FaPause />}
-        </button>
+        <>
+          <button
+            onClick={togglePlayPause}
+            disabled={!deviceId || !isPlayerReady}
+          >
+            {isPaused ? <FaPlay /> : <FaPause />}
+          </button>
+          {/* Progress Bar 컴포넌트 */}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              marginTop: '10px',
+            }}
+          >
+            <span>{formatTime(position)}</span> {/* 현재 시간 */}
+            <div
+              style={{
+                flexGrow: 1,
+                height: '10px',
+                background: '#ccc',
+                margin: '0 10px',
+                position: 'relative',
+                width: '50vw',
+              }}
+            >
+              <div
+                style={{
+                  width: `${(position / duration) * 100}%`,
+                  height: '100%',
+                  background: '#1DB954',
+                  position: 'absolute',
+                }}
+              ></div>
+            </div>
+            <span>{formatTime(duration)}</span> {/* 총 시간 */}
+          </div>
+        </>
       )}
     </div>
   );
 };
 
-export default PlayButton;
+export default PlayBar;

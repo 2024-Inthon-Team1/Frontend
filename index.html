@@ -7,10 +7,10 @@
     <title>Inthon</title>
     <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
     <script src="https://sdk.scdn.co/spotify-player.js"></script>
-    <script>
+    <!-- <script>
       window.onSpotifyWebPlaybackSDKReady = () => {
         const token =
-          'BQCiEMKC5UV_bx4Ks4dfEoEDrd1zfN01-PQa2ZvEovLjIGCdm5ANGd5Qp41uYKpAWLOB91PSvDj9_Zh8_Q-SId9OlHMJnF-eLJ9osQjZA-1H934uEDw';
+          'BQDoEaeqLJsCVCFt0Btq_FC28IiqERlLcUiHVhpJq7xEWvCWB4rLzWEa4dSobToiHER3DVRtyMwye0LcdvkU53fjwk9m';
         window.player = new Spotify.Player({
           name: 'Web Playback SDK Quick Start Player',
           getOAuthToken: cb => {
@@ -21,7 +21,7 @@
 
         window.player.addListener('ready', ({ device_id }) => {
           console.log('Ready with Device ID', device_id);
-          window.device_id = device_id; // device_id 저장
+          window.device_id = device_id;
         });
 
         window.player.addListener('not_ready', ({ device_id }) => {
@@ -48,7 +48,7 @@
           }
         });
       };
-    </script>
+    </script> -->
   </head>
   <body>
     <div id="root"></div>
