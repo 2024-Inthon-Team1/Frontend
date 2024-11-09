@@ -100,6 +100,7 @@ function NavigationBar({ active }) {
         <span
           className={`text-md font-bold ${active === 'my' ? 'text-orange-500' : 'text-gray-500'}`}
         >
+
           MY
         </span>
       </div>
@@ -115,6 +116,7 @@ function NavigationBar({ active }) {
         />
         <span
           className={`text-md font-bold ${active === 'chat' ? 'text-orange-500' : 'text-gray-500'}`}
+
         >
           CHAT
         </span>

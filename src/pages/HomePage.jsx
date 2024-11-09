@@ -130,6 +130,7 @@ const HomePage = () => {
         </div>
       </div>
 
+
       {/* 스크롤 가능한 컨텐츠 영역 */}
       <div className="pt-[380px] overflow-auto h-full pb-[100px]">
         <div className="grid grid-cols-3 gap-1 mx-5">
@@ -155,6 +156,7 @@ const HomePage = () => {
             );
           })}
         </div>
+
       </div>
 
       {/* 첫 로딩 이후 스크롤에 의한 로딩 시에만 모달 형태의 로딩 스피너 표시 */}

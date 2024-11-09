@@ -1,20 +1,18 @@
-import NavigationBar from "../components/mainFooter/NavigationBar";
 import { useSelector } from 'react-redux';
 
 function ChatListPage() {
-  const userId = useSelector(state => state.user.userId);
-  console.log(userId);
-  return(
+  // const userId = useSelector(state => state.user.userId);
+  // console.log(userId);
+  return (
     <div>
-      <div className="h-12"></div> 
+      <div className="h-12"></div>
       <Chatting />
-      <NavigationBar />
     </div>
   );
 }
 
-function Chatting(){
-  return(
+function Chatting() {
+  return (
     <>
       <div className="w-full flex h-16 items-center justify-start">
         <div className="rounded-full h-10 w-10 bg-gray-300 mx-3"></div>
@@ -25,6 +23,5 @@ function Chatting(){
     </>
   );
 }
-
 
 export default ChatListPage;

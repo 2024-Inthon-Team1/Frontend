@@ -1,12 +1,14 @@
-import React, { useState, useEffect, useRef } from 'react';
-import socket from '../api/socket';
 
-//icons
+// import React, { useState, useEffect, useRef } from "react";
+// import socket from "../api/socket";
+
+// //icons
 // import { PiCassetteTape } from "react-icons/pi";
 // import { FaRegSquarePlus } from "react-icons/fa6";
 // import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
 // import { IoSendSharp } from "react-icons/io5";
 // import { FiCamera, FiMic } from "react-icons/fi"; // 추가 아이콘
+
 
 // import { useLocation } from "react-router-dom"; // 테스트용
 
