@@ -29,3 +29,13 @@ export const addSongToCassette = async songData => {
     throw error;
   }
 };
+
+export const getCollection = async () => {
+  try {
+    const response = await apiClientIntercept.get('/cassette');
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching collection:', error);
+    throw error;
+  }
+};

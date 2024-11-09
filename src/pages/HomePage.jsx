@@ -6,9 +6,18 @@ import { MdOutlineAdd, MdEdit } from 'react-icons/md'; // 연필 아이콘 추�
 import NavigationBar from '../components/mainFooter/NavigationBar';
 import albumImage from '../assets/album.jpeg';
 import defaultProfile from '../assets/BasicUser.svg';
-import { getUserProfile, getUserProfileImage } from '../api/user';
+import {
+  getUserProfile,
+  getUserProfileImage,
+  getCollection,
+} from '../api/user';
 import BasicUser from '../assets/BasicUser.svg';
 import { FaCog } from 'react-icons/fa';
+
+import PlayButton from '../components/PlayButton';
+import PlayBar from '../components/PlayBar';
+import SpotifyPlayButton from '../components/PlayButton';
+import { getAccessToken } from '../api/spotifyApi';
 
 const HomePage = () => {
   const userId = useSelector(state => state.user?.userId || 'User');
@@ -20,15 +29,29 @@ const HomePage = () => {
   const [initialLoad, setInitialLoad] = useState(true);
   const [data, setData] = useState(null); // 첫 로딩 상태 추가
   const [image, setImage] = useState(null);
+  const [spotifyToken, setSpotifyToken] = useState(null);
+  const [currentTrackId, setCurrentTrackId] = useState(null);
 
   const fetchData = async () => {
     const data = await getUserProfile();
     setData(data);
     const imageData = await getUserProfileImage();
     setImage(imageData);
+    const collections = await getCollection();
+    console.log(collections);
+    handlePlayTrack(data?.signatureSongId);
   };
 
   useEffect(() => {
+    const token = getAccessToken();
+    if (!token) {
+      console.error(
+        'Spotify access token is missing or expired. Redirecting to authenticate...'
+      );
+      return;
+    }
+    setSpotifyToken(token);
+
     fetchData();
     // if (data) {
     //   setAllItems(data); // 전체 데이터를 저장
@@ -36,6 +59,10 @@ const HomePage = () => {
     // }
     setInitialLoad(false); // 첫 로딩 완료 후 초기 로딩 상태 비활성화
   }, []);
+
+  const handlePlayTrack = trackId => {
+    setCurrentTrackId(trackId); // 선택된 트랙 ID 설정
+  };
 
   // 스크롤 시 추가 데이터 로드
   const loadMoreItems = async () => {
@@ -129,6 +156,14 @@ const HomePage = () => {
           <div className="text-[14px] font-6semibold text-[#ff8000]">
             {data?.signatureSongArtist}
           </div>
+          {/* 재생 바 */}
+          {spotifyToken && currentTrackId && (
+            <PlayBar
+              token={spotifyToken}
+              trackId={currentTrackId}
+              onPlayPause={() => setCurrentTrackId(null)}
+            />
+          )}
           {/* <div
           onClick={() => navigate('/search')}
           className="mt-[20px] bg-[#ddd] rounded-xl mx-[20px] font-7bold text-[20px] py-[10px]"
@@ -143,17 +178,17 @@ const HomePage = () => {
               backgroundPosition: 'center',
             }}
           ></div>
-          <div className="flex justify-between items-center mx-5 rounded-xl">
-            <span className="font-8extrabold text-[20px] my-[10px]">
-              COLLECTION
-            </span>
-            <MdOutlineAdd
-              onClick={() => navigate('/addsong')}
-              className="text-[24px]"
-            />
-          </div>
         </div>
-
+        <div className="w-full h-[20px] bg-[#ddd] mt-[20px]"></div>
+        <div className="flex justify-between items-center mx-5 rounded-xl">
+          <span className="font-8extrabold text-[20px] my-[10px]">
+            COLLECTION
+          </span>
+          <MdOutlineAdd
+            onClick={() => navigate('/addsong')}
+            className="text-[24px]"
+          />
+        </div>
         {/* 스크롤 가능한 컨텐츠 영역 */}
         <div className="pt-[280px] overflow-auto h-full pb-[100px]">
           <div className="grid grid-cols-3 gap-1 mx-5">
@@ -192,3 +227,5 @@ const HomePage = () => {
     </div>
   );
 };
+
+export default HomePage;

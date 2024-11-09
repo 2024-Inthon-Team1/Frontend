@@ -5,7 +5,7 @@ import { FaRegCheckCircle } from 'react-icons/fa';
 
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-// import { addSongToCassette } from '../api/cassette';
+import { addSongToCassette } from '../api/user';
 
 const AddSongPage = () => {
   const navigate = useNavigate();
@@ -30,6 +30,25 @@ const AddSongPage = () => {
       setTracks(response.data.tracks.items);
     } catch (error) {
       console.error('Error fetching data from Spotify API', error);
+    }
+  };
+
+  const handleAddSong = async () => {
+    if (selectedTrack) {
+      const songData = {
+        songId: selectedTrack.id,
+        title: selectedTrack.name,
+        artist: selectedTrack.artists.map(artist => artist.name).join(', '),
+        review,
+      };
+
+      try {
+        await addSongToCassette(songData); // API 호출
+        alert('곡이 추가되었습니다!');
+        navigate('/home');
+      } catch (error) {
+        alert('곡 추가 중 오류가 발생했습니다.');
+      }
     }
   };
 
@@ -119,9 +138,13 @@ const AddSongPage = () => {
           <input
             type="text"
             placeholder="한줄 감상"
+            onChange={e => setReview(e.target.value)}
             className="w-full max-w-md mt-[20px] px-5 py-2 mx-[20px] bg-[#d9d9d9] text-[20px] font-7bold rounded-lg focus:outline-none"
           />
-          <button className="w-[calc(100%-40px)] absolute bottom-10 left-1/2 transform -translate-x-1/2 bg-[#FF8000] text-white py-2 px-6 rounded-lg text-[18px] font-7bold hover:bg-[#FF8E8E] focus:outline-none">
+          <button
+            onClick={handleAddSong}
+            className="w-[calc(100%-40px)] absolute bottom-10 left-1/2 transform -translate-x-1/2 bg-[#FF8000] text-white py-2 px-6 rounded-lg text-[18px] font-7bold hover:bg-[#FF8E8E] focus:outline-none"
+          >
             추가하기
           </button>
         </div>

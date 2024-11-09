@@ -16,7 +16,10 @@ export const authenticateSpotify = () => {
   );
 
   if (token) {
-    localStorage.setItem('spotifyAccessToken', token);
+    localStorage.setItem(
+      'spotifyAccessToken',
+      'BQApxPW6LpK9AikvI3Im-V0cyJ8sBDECOoL4L3yErZ0O6xeZf8mtOca4bvaVfbs9vR2vSacz0UOXL6sUB9GGYNLnpuhbgfUZz3co8m-tOVtUvGmr5mjDKuq9UrQEw0k3KrI_UoE6n9uHKPpn2XbaVQgyeISwZ-01J-2BQmfm3xoVip10bfDsJ4c3PNH5GmmCUALk9ynAE5zFwmRP9UXWRclrX2U'
+    );
     localStorage.setItem(
       'spotifyTokenExpiry',
       dayjs().add(expiresIn, 'second').toISOString()

@@ -10,7 +10,7 @@ function LandingPage() {
   const redirectUri = 'http://localhost:5173/kakao/callback';
 
   const handleKakaoLogin = () => {
-    window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${restApiKey}&redirect_uri=${redirectUri}&response_type=code`;
+    window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${restApiKey}&redirect_uri=${redirectUri}&response_type=code&prompt=login`;
   };
 
   return (

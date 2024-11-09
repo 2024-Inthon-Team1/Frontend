@@ -6,9 +6,9 @@ import { IoAddCircleOutline } from 'react-icons/io5';
 
 import PlayButton from '../components/PlayButton';
 import PlayBar from '../components/PlayBar';
+import SpotifyPlayButton from '../components/PlayButton';
 
 import TapeImage from '../assets/tape.png';
-import SpotifyPlayButton from '../components/PlayButton';
 import { FiSearch } from 'react-icons/fi';
 import TapeModal from '../components/TapeModal';
 import { getAccessToken } from '../api/spotifyApi';
@@ -25,6 +25,9 @@ const SearchPage = () => {
   const trackContainerRef = useRef(null);
   const location = useLocation();
   const { userId } = location.state || {};
+
+  const [spotifyToken, setSpotifyToken] = useState(null);
+  const [currentTrackUri, setCurrentTrackUri] = useState(null);
 
   const handleSearch = async (isNewSearch = true) => {
     const token = getAccessToken();
