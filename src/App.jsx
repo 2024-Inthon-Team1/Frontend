@@ -9,7 +9,7 @@ import HomePage from './pages/HomePage';
 function App() {
   const kakaoClientId = import.meta.env.VITE_KAKAO_CLIENT_ID;
   useEffect(() => {
-    // Kakao SDK 초기화
+    // Kakao SDK 초기화하기
     if (!window.Kakao.isInitialized()) {
       window.Kakao.init(kakaoClientId);
       console.log('Kakao SDK initialized:', window.Kakao.isInitialized());
