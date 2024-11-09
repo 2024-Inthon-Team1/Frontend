@@ -9,6 +9,9 @@ import RegisterPage from './pages/RegisterPage';
 import ChatPage from './pages/ChatPage';
 import FindPage from './pages/FindPage';
 import LandingPage from './pages/LandingPage';
+import SelectSongPage from './pages/SelectSongPage';
+import ProfilePage from './pages/ProfilePage';
+import SrollAlbumPage from './pages/ScrollAlbumPage';
 
 function App() {
   const kakaoClientId = import.meta.env.VITE_KAKAO_CLIENT_ID;
@@ -31,6 +34,9 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="kakao/callback" element={<KakaoLoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/selectsong" element={<SelectSongPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/albumscroll" element={<SrollAlbumPage />} />
       </Routes>
     </Router>
   );

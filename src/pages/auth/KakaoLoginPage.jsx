@@ -21,7 +21,11 @@ const KakaoLoginPage = () => {
         if (result) {
           setCookies(result.accessToken, result.refreshToken);
           dispatch(setUserId(result.userId));
-          navigate('/home');
+          if (result.isSignedUp) {
+            navigate('/home');
+          } else {
+            navigate('/register');
+          }
         } else {
           console.error('Failed to authenticate user');
           navigate('/');
