@@ -6,6 +6,7 @@ export const authenticateWithKakao = async code => {
 
     if (response.status === 200) {
       console.log('Authentication successful, user created.');
+      console.log(response);
       return response.data;
     } else {
       console.error('Authentication failed:', response.statusText);

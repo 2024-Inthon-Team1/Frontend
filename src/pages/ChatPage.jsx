@@ -139,3 +139,5 @@ function Chatting({ messageList, userId }) {
   );
 }
 
+export default ChatPage;
+
