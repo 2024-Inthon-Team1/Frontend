@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import Profile from "../components/Profile";
 import socket from "../api/socket";
 
 //icons
@@ -40,7 +39,7 @@ function ChatPage() {
       const chatMessage = {
         roomId,
         userId,
-        message,
+        message
       };
 
       socket.emit("send_message", chatMessage, (response) => {
@@ -58,7 +57,7 @@ function ChatPage() {
     <div className="bg-blue-100 h-screen flex flex-col">
       <div className="w-full h-14 flex items-center bg-blue-100">
         <MdOutlineKeyboardArrowLeft className="h-10 w-9"/>
-        <Profile />
+        <div className="rounded-full h-7 w-7 bg-gray-400 mr-2"></div>
         <div className="font-semibold text-xl">상대아이디</div>
       </div>
       <div className="flex-1 overflow-hidden">
