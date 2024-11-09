@@ -12,17 +12,18 @@ const KakaoLoginPage = () => {
 
       if (code) {
         console.log(code);
-        try {
-          const result = await authenticateWithKakao(code);
-          if (result) {
-            console.log('User authenticated successfully');
-            navigate('/home');
-          } else {
-            console.error('Failed to authenticate user');
-          }
-        } catch (error) {
-          console.error('Error authenticating user:', error);
-        }
+        // try {
+        //   const result = await authenticateWithKakao(code);
+        //   if (result) {
+        //     console.log('User authenticated successfully');
+        //     navigate('/home');
+        //   } else {
+        //     console.error('Failed to authenticate user');
+        //   }
+        // } catch (error) {
+        //   console.error('Error authenticating user:', error);
+        // }
+        navigate('/home');
       }
     };
 
