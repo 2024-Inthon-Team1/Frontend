@@ -6,6 +6,7 @@ import NavigationBar from './components/mainFooter/NavigationBar';
 import LoginPage from './pages/auth/LoginPage';
 import KakaoLoginPage from './pages/auth/KakaoLoginPage';
 import HomePage from './pages/HomePage';
+import RegisterPage from './pages/RegisterPage';
 import ChatPage from './pages/ChatPage';
 import FindPage from './pages/FindPage';
 
@@ -29,6 +30,8 @@ function App() {
         </Route>
         <Route path="/" element={<LoginPage />} />
         <Route path="kakao/callback" element={<KakaoLoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/chat" element={<ChatPage />} />
       </Routes>
     </Router>
   );
