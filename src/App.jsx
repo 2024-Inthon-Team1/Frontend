@@ -33,7 +33,7 @@ function App() {
           <Route path="find" element={<FindPage />} />
         </Route>
         <Route path="/" element={<LandingPage />} />
-        <Route path="search" element={<SearchPage />} />
+        <Route path="/search" element={<SearchPage />} />
         <Route path="kakao/callback" element={<KakaoLoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/selectsong" element={<SelectSongPage />} />

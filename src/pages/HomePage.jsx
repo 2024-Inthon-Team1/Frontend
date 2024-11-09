@@ -32,6 +32,12 @@ const HomePage = () => {
       <div className="flex px-5 py-[10px] bg-[#fff] rounded-[20px] mt-[20px] mx-5">
         <div className="text-[18px] font-7bold">#MENOW</div>
       </div>
+      <div
+        onClick={() => navigate('/search')}
+        className="mt-[20px] bg-[#ddd] rounded-xl mx-[20px] font-7bold text-[20px] py-[10px]"
+      >
+        카세트테이프 선물하기 🎁
+      </div>
       <div className="h-[20px] bg-[#ddd] mt-[20px]"></div>
       <div className="flex justify-between items-center mx-5">
         <span className="font-8extrabold text-[20px] my-[10px]">
