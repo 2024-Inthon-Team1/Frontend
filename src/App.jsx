@@ -2,10 +2,12 @@ import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useEffect } from 'react';
 
-import LandingPage from './pages/LandingPage';
+import NavigationBar from './components/mainFooter/NavigationBar';
 import LoginPage from './pages/auth/LoginPage';
 import KakaoLoginPage from './pages/auth/KakaoLoginPage';
 import HomePage from './pages/HomePage';
+import ChatPage from './pages/ChatPage';
+import FindPage from './pages/FindPage';
 
 function App() {
   const kakaoClientId = import.meta.env.VITE_KAKAO_CLIENT_ID;
@@ -20,8 +22,12 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="home" element={<HomePage />} />
+        <Route element={<NavigationBar />}>
+          <Route path="home" element={<HomePage />} />
+          <Route path="chat" element={<ChatPage />} />
+          <Route path="find" element={<FindPage />} />
+        </Route>
+        <Route path="/" element={<LoginPage />} />
         <Route path="kakao/callback" element={<KakaoLoginPage />} />
       </Routes>
     </Router>
