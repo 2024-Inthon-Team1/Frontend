@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import dayjs from 'dayjs';
 
 const SpotifyCallback = () => {
   const navigate = useNavigate();
@@ -9,9 +10,14 @@ const SpotifyCallback = () => {
     if (hash) {
       const params = new URLSearchParams(hash.substring(1));
       const token = params.get('access_token');
+      const expiresIn = params.get('expires_in');
 
-      if (token) {
-        localStorage.setItem('spotifyAccessToken', token); // accessToken 저장
+      if (token && expiresIn) {
+        localStorage.setItem('spotifyAccessToken', token);
+        localStorage.setItem(
+          'spotifyTokenExpiry',
+          dayjs().add(expiresIn, 'second').toISOString()
+        );
         navigate(-1);
       }
     }
