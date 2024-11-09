@@ -22,7 +22,7 @@ export const authenticateWithKakao = async code => {
 export const signupUser = async userData => {
   try {
     const response = await apiClientIntercept.post('/auth/signup', userData);
-    return response.data;
+    return response;
   } catch (error) {
     console.error('Error during signup:', error);
     throw error;

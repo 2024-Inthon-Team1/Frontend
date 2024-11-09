@@ -15,9 +15,12 @@ const RegisterPage = () => {
   const navigate = useNavigate();
 
   const handleContinue = () => {
+    const formattedMonth = birthMonth.padStart(2, '0');
+    const formattedDay = birthDay.padStart(2, '0');
+
     const userData = {
       gender,
-      birthDate: `${birthYear}-${birthMonth}-${birthDay}`,
+      birthDate: `${birthYear}-${formattedMonth}-${formattedDay}`, // 항상 두 자리로 설정
       nickname,
     };
 
@@ -42,13 +45,10 @@ const RegisterPage = () => {
   const currentYear = new Date().getFullYear();
   const BIRTHDAY_YEAR_LIST = Array.from(
     { length: currentYear - 1920 + 1 },
-    (_, i) => `${1920 + i}년`
+    (_, i) => `${1920 + i}`
   );
-  const BIRTHDAY_MONTH_LIST = Array.from(
-    { length: 12 },
-    (_, i) => `${i + 1}월`
-  );
-  const BIRTHDAY_DAY_LIST = Array.from({ length: 31 }, (_, i) => `${i + 1}일`);
+  const BIRTHDAY_MONTH_LIST = Array.from({ length: 12 }, (_, i) => `${i + 1}`);
+  const BIRTHDAY_DAY_LIST = Array.from({ length: 31 }, (_, i) => `${i + 1}`);
 
   const handleFileChange = e => {
     const file = e.target.files[0];

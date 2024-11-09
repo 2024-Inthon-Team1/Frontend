@@ -17,7 +17,6 @@ const SelectSongPage = () => {
   const [tracks, setTracks] = useState([]);
   const [selectedTrack, setSelectedTrack] = useState(null);
   const [isSelected, setIsSelected] = useState(false);
-  const profileImage = useSelector(state => state.profile.profileImage);
 
   const handleSearch = async () => {
     const token = localStorage.getItem('spotifyAccessToken');
@@ -43,12 +42,11 @@ const SelectSongPage = () => {
   };
 
   const handleSignup = async () => {
-    if (!selectedTrack) {
+    if (selectedTrack) {
       const userData = {
-        sex: gender,
+        sex: gender === '남성' ? 'MALE' : 'FEMALE',
         birthday: birthDate,
         username: nickname,
-        profileUrl: profileImage,
         signatureSongId: selectedTrack.id,
         signatureSong: selectedTrack.name,
         signatureSongArtist: selectedTrack.artists
@@ -63,6 +61,7 @@ const SelectSongPage = () => {
       } catch (error) {
         alert('회원가입 중 오류가 발생했습니다.');
       }
+      console.log(userData);
     }
   };
 
