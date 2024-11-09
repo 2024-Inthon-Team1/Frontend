@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { useSelector } from 'react-redux';
 import { IoHeadset } from 'react-icons/io5';
 import { FiSearch } from 'react-icons/fi';
 import { FaRegCheckCircle } from 'react-icons/fa';
@@ -9,7 +10,7 @@ import { signupUser } from '../api/auth';
 const SelectSongPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { gender, birthDate, nickname, profileImage } = location.state || {};
+  const { gender, birthDate, nickname } = location.state || {};
   const [searchTerm, setSearchTerm] = useState('');
   const [tracks, setTracks] = useState([]);
   const [selectedTrack, setSelectedTrack] = useState(null);
@@ -71,10 +72,9 @@ const SelectSongPage = () => {
   const handleSignup = async () => {
     if (selectedTrack) {
       const userData = {
-        sex: gender,
+        sex: gender === '남성' ? 'MALE' : 'FEMALE',
         birthday: birthDate,
         username: nickname,
-        profileUrl: profileImage,
         signatureSongId: selectedTrack.id,
         signatureSong: selectedTrack.name,
         signatureSongArtist: selectedTrack.artists
@@ -88,6 +88,7 @@ const SelectSongPage = () => {
       } catch (error) {
         alert('회원가입 중 오류가 발생했습니다.');
       }
+      console.log(userData);
     }
   };
 

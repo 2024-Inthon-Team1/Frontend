@@ -22,9 +22,24 @@ export const authenticateWithKakao = async code => {
 export const signupUser = async userData => {
   try {
     const response = await apiClientIntercept.post('/auth/signup', userData);
-    return response.data;
+    return response;
   } catch (error) {
     console.error('Error during signup:', error);
     throw error;
   }
+};
+
+export const uploadProfileImage = async file => {
+  // FormData 객체 생성
+  const formData = new FormData();
+  formData.append('profileImage', file);
+
+  // 서버에 multi-part 형식으로 전송
+  const response = await apiClientIntercept.post('/auth/addProfile', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+
+  return response;
 };
