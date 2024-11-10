@@ -1,4 +1,3 @@
-import NavigationBar from "../components/mainFooter/NavigationBar";
 import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 
@@ -35,6 +34,12 @@ function ChatListPage() {
         ))}
       </div>
       <NavigationBar />
+  // const userId = useSelector(state => state.user.userId);
+  // console.log(userId);
+  return (
+    <div>
+      <div className="h-12"></div>
+      <Chatting />
     </div>
   );
 }
@@ -48,9 +53,6 @@ function Chatting({ name, lastMessage, time }) {
           <div className="font-semibold text-sm">{name}</div>
           <div className="text-gray-500 text-xs ml-3">{lastMessage}</div>
         </div>
-      </div>
-      <div className="text-gray-400 text-xs">{time}</div>
-    </div>
   );
 }
 

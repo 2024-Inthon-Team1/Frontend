@@ -19,20 +19,19 @@ const KakaoLoginPage = () => {
       try {
         const result = await authenticateWithKakao(code);
         if (result) {
-          setCookies(result.accessToken, result.refreshToken);
-          dispatch(setUserId(result.userId));
-          if (result.isSignedUp) {
+          console.log(result.data.accessToken, result.data.refreshToken);
+          setCookies(result.data.accessToken, result.data.refreshToken);
+          dispatch(setUserId(result.data.userId));
+          if (result.data.isSignedup) {
             navigate('/home');
           } else {
             navigate('/register');
           }
         } else {
           console.error('Failed to authenticate user');
-          navigate('/');
         }
       } catch (error) {
         console.error('Error authenticating user:', error);
-        navigate('/');
       }
     }
   };
