@@ -203,11 +203,11 @@ const RegisterPage = () => {
                 className="cursor-pointer rounded-xl w-full py-3 bg-gray-300 mt-[10px] flex items-center justify-center"
               >
                 {profileImage ? (
-                  <span className="text-gray-500 text-[18px] font-[#aaa] font-6semibold">
+                  <span className="text-gray-500 text-[18px] font-6semibold">
                     {profileImage.name}
                   </span>
                 ) : (
-                  <span className="text-gray-500 text-[18px] font-[#aaa] font-6semibold">
+                  <span className="text-gray-500 text-[18px] font-6semibold">
                     사진 선택하기
                   </span>
                 )}
