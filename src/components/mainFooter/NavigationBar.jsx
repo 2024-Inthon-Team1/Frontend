@@ -100,14 +100,13 @@ function NavigationBar({ active }) {
         <span
           className={`text-md font-bold ${active === 'my' ? 'text-orange-500' : 'text-gray-500'}`}
         >
-
           MY
         </span>
       </div>
 
       <div
         className="flex flex-col items-center cursor-pointer"
-        onClick={() => handleNavigate('/chat')}
+        onClick={() => handleNavigate('/chatlist')}
       >
         <img
           src={active === 'chat' ? ChatOrange : ChatGrey}
@@ -116,7 +115,6 @@ function NavigationBar({ active }) {
         />
         <span
           className={`text-md font-bold ${active === 'chat' ? 'text-orange-500' : 'text-gray-500'}`}
-
         >
           CHAT
         </span>

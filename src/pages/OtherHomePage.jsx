@@ -1,43 +1,69 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { MdOutlineAdd, MdEdit } from 'react-icons/md'; // 연필 아이콘 추가
 import NavigationBar from '../components/mainFooter/NavigationBar';
 import albumImage from '../assets/album.jpeg';
 import defaultProfile from '../assets/BasicUser.svg'; // 기본 프로필 이미지 가져오기
 import { FaCog } from 'react-icons/fa';
+import {
+  getCollectionById,
+  getUserProfileById,
+  getUserProfileImageById,
+} from '../api/user';
 
-const OtherHomePage = ({ id }) => {
-  const userId = useSelector(state => state.user?.userId || 'User');
-  const userProfile = useSelector(state => state.user?.profileImage); // 프로필 이미지 가져오기
+import Cover1 from '../assets/Albums/cover1.jpg';
+import Cover2 from '../assets/Albums/cover2.jpg';
+import Cover3 from '../assets/Albums/cover3.jpg';
+import Cover4 from '../assets/Albums/cover4.jpg';
+import Cover5 from '../assets/Albums/cover5.jpg';
+import Cover6 from '../assets/Albums/cover6.jpg';
+import Cover7 from '../assets/Albums/cover7.jpg';
+import Cover8 from '../assets/Albums/cover8.jpg';
+import Cover9 from '../assets/Albums/cover9.jpg';
+// import Cover7 from "../assets/Albums/cover7.jpg";
+
+const OtherHomePage = () => {
+  const location = useLocation();
   const navigate = useNavigate();
-  const [items, setItems] = useState([]); // 현재 화면에 표시된 항목
+  const { id } = location.state || {};
   const [allItems, setAllItems] = useState([]); // 모든 항목을 저장
+
+  const [data, setData] = useState(null); // 첫 로딩 상태 추가
+  const [image, setImage] = useState(null);
   const [visibleCount, setVisibleCount] = useState(12); // 현재 화면에 보이는 항목 수
   const [loading, setLoading] = useState(false); // 로딩 상태 추가
   const [initialLoad, setInitialLoad] = useState(true); // 첫 로딩 상태 추가
 
-  // 목 데이터를 생성하는 함수 (백엔드에서 데이터를 가져오는 것처럼 모방)
-  const fetchDataFromBackend = async userId => {
-    // 실제로는 이곳에서 백엔드에 요청을 보내 데이터를 가져옴 (예: axios, fetch 사용)
-    await new Promise(resolve => setTimeout(resolve, 500)); // 백엔드 통신 시의 지연 시간 모방
-    return Array.from({ length: 100 }, (_, index) => ({
-      id: `${userId}-${index}`, // 전달받은 userId와 index로 고유한 id 생성
-      imageUrl: albumImage,
-    }));
+  const [items, setItems] = useState([
+    { id: 6, imageUrl: Cover6, title: 'Album Title 6' },
+    { id: 7, imageUrl: Cover7, title: 'Album Title 7' },
+    { id: 8, imageUrl: Cover8, title: 'Album Title 8' },
+    { id: 9, imageUrl: Cover9, title: 'Album Title 9' },
+  ]);
+
+  // const fetchData = async () => {
+  //   const data = await getUserProfileById(id);
+  //   setData(data);
+  //   const imageData = await getUserProfileImageById(id);
+  //   setImage(imageData);
+  //   const collections = await getCollectionById(id);
+  //   setItems(collections);
+  //   console.log(collections);
+  // };
+  const fetchData = async () => {
+    const data = await getUserProfileById(id);
+    setData(data);
+    const imageData = await getUserProfileImageById(id);
+    setImage(imageData);
+
+    // API에서 collections 데이터를 받아도 setItems를 호출하지 않음
+    console.log('Fetched data:', data);
   };
 
-  // 처음에 데이터를 한 번만 가져옴
   useEffect(() => {
-    const loadInitialData = async () => {
-      const data = await fetchDataFromBackend(id);
-      setAllItems(data); // 전체 데이터를 저장
-      setItems(data.slice(0, visibleCount)); // 처음 보여줄 데이터 설정
-      setInitialLoad(false); // 첫 로딩 완료 후 초기 로딩 상태 비활성화
-    };
-
-    loadInitialData();
-  }, [id]); // id가 변경될 때마다 데이터를 다시 가져오도록 설정
+    fetchData();
+  }, []);
 
   // 스크롤 시 추가 데이터 로드
   const loadMoreItems = async () => {
@@ -94,31 +120,56 @@ const OtherHomePage = ({ id }) => {
           {/* 프로필 이미지 영역 */}
           <div className="w-12 h-12 rounded-full overflow-hidden">
             <img
-              src={userProfile || defaultProfile}
+              src={defaultProfile}
               alt="User Profile"
               className="w-full h-full object-cover"
             />
           </div>
           <div className="flex flex-col ml-[20px]">
             <div className="flex flex-row align-center text-left text-[20px] font-7bold">
-              {userId}
+              고수영
             </div>
             <div className="text-left text-[#aaa] text-[16px] font-5medium mt-[-3px]">
               기본 정보 보기
             </div>
           </div>
-          <FaCog
+          {/* <FaCog
             size={24}
             className="text-[#aaa] ml-auto mt-[10px] cursor-pointer"
             onClick={() => navigate('/profile')}
-          />
+          /> */}
         </div>
-        <div className="flex px-5 py-[10px] bg-[#fff] rounded-[20px] mt-[20px] mx-5 items-center">
+        {/* <div className="flex px-5 py-[10px] bg-[#fff] rounded-[20px] mt-[20px] mx-5 items-center">
           <div className="text-[18px] font-7bold">#MENOW</div>
+        </div> */}
+        <div className="flex flex-col px-5 py-[10px] bg-[#fff] rounded-[20px] mt-[20px] mx-5 items-start">
+          {data ? (
+            <>
+              <div className="text-[18px] font-7bold">#MENOW</div>
+              <div className="text-[16px] font-7bold text-[#ff8000]">
+                {data.signatureSong}
+              </div>
+              <div className="text-[14px] font-6semibold text-[#ff8000]">
+                {data.signatureSongArtist}
+              </div>
+            </>
+          ) : (
+            <div>Loading...</div> // 데이터 로딩 중임을 표시
+          )}
         </div>
 
+        {/* <div className="flex px-5 py-[10px] bg-[#fff] rounded-[20px] mt-[20px] mx-5 items-center">
+          <div className="text-[18px] font-7bold">#MENOW</div>
+          <div className="text-[16px] font-7bold text-[#ff8000]">
+            {data?.signatureSong}
+          </div>
+          <div className="text-[14px] font-6semibold text-[#ff8000]">
+            {data?.signatureSongArtist}
+          </div>
+        </div> */}
+
         <div
-          onClick={() => navigate('/search', { state: { userId } })}
+          onClick={() => navigate('/search', { state: { id } })}
           className="mt-[20px] bg-[#ddd] rounded-xl mx-[20px] font-7bold text-[20px] py-[10px]"
         >
           테이프 선물하기 🎁
@@ -135,13 +186,13 @@ const OtherHomePage = ({ id }) => {
           <span className="font-8extrabold text-[20px] my-[10px]">
             COLLECTION
           </span>
-          <MdOutlineAdd className="text-[24px]" />
+          {/* <MdOutlineAdd className="text-[24px]" /> */}
         </div>
       </div>
 
       {/* 스크롤 가능한 컨텐츠 영역 */}
-      <div className="pt-[380px] overflow-auto h-full pb-[100px]">
-        <div className="grid grid-cols-3 gap-1 mx-5">
+      <div className="pt-[370px] overflow-auto h-full pb-[100px]">
+        <div className="grid grid-cols-3 gap-1 pt-5">
           {items.map((item, index) => {
             const isLastItem = index === items.length - 1;
             return (
@@ -171,7 +222,7 @@ const OtherHomePage = ({ id }) => {
 
       {/* NavigationBar는 항상 화면 최상단에 있도록 설정 */}
       <div className="fixed bottom-0 left-0 w-full z-50">
-        <NavigationBar active="my" />
+        <NavigationBar active="find" />
       </div>
     </div>
   );
