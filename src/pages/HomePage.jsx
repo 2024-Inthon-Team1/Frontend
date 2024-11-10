@@ -6,18 +6,11 @@ import { MdOutlineAdd, MdEdit } from 'react-icons/md'; // 연필 아이콘 추�
 import NavigationBar from '../components/mainFooter/NavigationBar';
 import albumImage from '../assets/album.jpeg';
 import defaultProfile from '../assets/BasicUser.svg';
-import {
-  getUserProfile,
-  getUserProfileImage,
-  getCollection,
-} from '../api/user';
+import { getUserProfile, getUserProfileImage } from '../api/user';
 import BasicUser from '../assets/BasicUser.svg';
 import { FaCog } from 'react-icons/fa';
-
-import PlayButton from '../components/PlayButton';
-import PlayBar from '../components/PlayBar';
-import SpotifyPlayButton from '../components/PlayButton';
-import { getAccessToken } from '../api/spotifyApi';
+import PlayBar from '../components/PlayBar.jsx';
+import { getCollection } from '../api/user';
 
 const HomePage = () => {
   const userId = useSelector(state => state.user?.userId || 'User');
@@ -29,29 +22,19 @@ const HomePage = () => {
   const [initialLoad, setInitialLoad] = useState(true);
   const [data, setData] = useState(null); // 첫 로딩 상태 추가
   const [image, setImage] = useState(null);
-  const [spotifyToken, setSpotifyToken] = useState(null);
-  const [currentTrackId, setCurrentTrackId] = useState(null);
 
   const fetchData = async () => {
     const data = await getUserProfile();
     setData(data);
+    console.log(data);
     const imageData = await getUserProfileImage();
     setImage(imageData);
     const collections = await getCollection();
-    console.log(collections);
-    handlePlayTrack(data?.signatureSongId);
+    setItems(collections);
+    console.log('collectons', collections);
   };
 
   useEffect(() => {
-    const token = getAccessToken();
-    if (!token) {
-      console.error(
-        'Spotify access token is missing or expired. Redirecting to authenticate...'
-      );
-      return;
-    }
-    setSpotifyToken(token);
-
     fetchData();
     // if (data) {
     //   setAllItems(data); // 전체 데이터를 저장
@@ -59,10 +42,6 @@ const HomePage = () => {
     // }
     setInitialLoad(false); // 첫 로딩 완료 후 초기 로딩 상태 비활성화
   }, []);
-
-  const handlePlayTrack = trackId => {
-    setCurrentTrackId(trackId); // 선택된 트랙 ID 설정
-  };
 
   // 스크롤 시 추가 데이터 로드
   const loadMoreItems = async () => {
@@ -128,6 +107,7 @@ const HomePage = () => {
             <div className="text-left text-[20px] font-7bold">
               {data?.username}
             </div>
+
             <div className="text-left text-[#aaa] text-[16px] font-5medium mt-[-3px]">
               기본 정보 보기
             </div>
@@ -144,51 +124,31 @@ const HomePage = () => {
           />
         </div>
         <div className="flex flex-col px-5 py-[10px] bg-[#fff] rounded-[20px] mt-[20px] mx-5 items-start">
-          <div className="text-[18px] font-7bold">#MENOW</div>
-          {/* <MdEdit
-            size={24}
-            className="text-[#aaa] ml-auto cursor-pointer"
-            onClick={() => navigate('/edit')} // EditPage로 이동
-          /> */}
-          <div className="text-[16px] font-7bold text-[#ff8000]">
-            {data?.signatureSong}
-          </div>
-          <div className="text-[14px] font-6semibold text-[#ff8000]">
-            {data?.signatureSongArtist}
-          </div>
-          {/* 재생 바 */}
-          {spotifyToken && currentTrackId && (
-            <PlayBar
-              token={spotifyToken}
-              trackId={currentTrackId}
-              onPlayPause={() => setCurrentTrackId(null)}
-            />
+          {data ? (
+            <>
+              <div className="text-[18px] font-7bold">#MENOW</div>
+              <div className="text-[16px] font-7bold text-[#ff8000]">
+                {data.signatureSong}
+              </div>
+              <div className="text-[14px] font-6semibold text-[#ff8000]">
+                {data.signatureSongArtist}
+              </div>
+              <PlayBar track_id="02SbQgZbzMoylPoGr32ugF" />
+            </>
+          ) : (
+            <div>Loading...</div> // 데이터 로딩 중임을 표시
           )}
-          {/* <div
-          onClick={() => navigate('/search')}
-          className="mt-[20px] bg-[#ddd] rounded-xl mx-[20px] font-7bold text-[20px] py-[10px]"
-        >
-          테이프 선물하기 🎁
-        </div> */}
-          <div
-            className="h-[20px] bg-[#ddd] mt-[20px]"
-            style={{
-              backgroundImage: "url('./assets/MainBg.png')",
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-            }}
-          ></div>
+          <div className="flex justify-between items-center mx-5 rounded-xl">
+            <span className="font-8extrabold text-[20px] my-[10px]">
+              COLLECTION
+            </span>
+            <MdOutlineAdd
+              onClick={() => navigate('/addsong')}
+              className="text-[24px]"
+            />
+          </div>
         </div>
-        <div className="w-full h-[20px] bg-[#ddd] mt-[20px]"></div>
-        <div className="flex justify-between items-center mx-5 rounded-xl">
-          <span className="font-8extrabold text-[20px] my-[10px]">
-            COLLECTION
-          </span>
-          <MdOutlineAdd
-            onClick={() => navigate('/addsong')}
-            className="text-[24px]"
-          />
-        </div>
+
         {/* 스크롤 가능한 컨텐츠 영역 */}
         <div className="pt-[280px] overflow-auto h-full pb-[100px]">
           <div className="grid grid-cols-3 gap-1 mx-5">
@@ -216,10 +176,10 @@ const HomePage = () => {
           </div>
         </div>
 
+        {/* <PlayBar track_id="02SbQgZbzMoylPoGr32ugF" /> */}
         {/* 첫 로딩 이후 스크롤에 의한 로딩 시에만 모달 형태의 로딩 스피너 표시 */}
         {!initialLoad && loading && <LoadingSpinner />}
 
-        {/* NavigationBar는 항상 화면 최상단에 있도록 설정 */}
         <div className="fixed bottom-0 left-0 w-full z-50">
           <NavigationBar active="my" />
         </div>

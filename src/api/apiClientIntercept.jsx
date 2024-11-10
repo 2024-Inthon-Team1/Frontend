@@ -2,7 +2,7 @@ import axios from 'axios';
 import { isTokenExpired, refreshingToken, getCookie } from './token';
 
 const apiClientIntercept = axios.create({
-  baseURL: 'https://122f-163-152-3-132.ngrok-free.app',
+  baseURL: 'http://localhost:3080',
   headers: {
     'Content-Type': 'application/json',
   },

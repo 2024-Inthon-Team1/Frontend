@@ -39,3 +39,13 @@ export const getCollection = async () => {
     throw error;
   }
 };
+
+export const getRandom = async () => {
+  try {
+    const response = await apiClientIntercept.get('/users/finding');
+    console.log(response);
+    return response;
+  } catch (error) {
+    console.log('Error:', error);
+  }
+};
