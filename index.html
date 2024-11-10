@@ -6,6 +6,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Inthon</title>
     <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+    <script src="https://sdk.scdn.co/spotify-player.js"></script>
+    <!-- <script>
+      window.onSpotifyWebPlaybackSDKReady = () => {
+        const token =
+          'BQDoEaeqLJsCVCFt0Btq_FC28IiqERlLcUiHVhpJq7xEWvCWB4rLzWEa4dSobToiHER3DVRtyMwye0LcdvkU53fjwk9m';
+        window.player = new Spotify.Player({
+          name: 'Web Playback SDK Quick Start Player',
+          getOAuthToken: cb => {
+            cb(token);
+          },
+          volume: 0.5,
+        });
+
+        window.player.addListener('ready', ({ device_id }) => {
+          console.log('Ready with Device ID', device_id);
+          window.device_id = device_id;
+        });
+
+        window.player.addListener('not_ready', ({ device_id }) => {
+          console.log('Device ID has gone offline', device_id);
+        });
+
+        window.player.addListener('initialization_error', ({ message }) => {
+          console.error(message);
+        });
+
+        window.player.addListener('authentication_error', ({ message }) => {
+          console.error(message);
+        });
+
+        window.player.addListener('account_error', ({ message }) => {
+          console.error(message);
+        });
+
+        window.player.connect().then(success => {
+          if (success) {
+            console.log(
+              'The Web Playback SDK successfully connected to Spotify!'
+            );
+          }
+        });
+      };
+    </script> -->
   </head>
   <body>
     <div id="root"></div>
