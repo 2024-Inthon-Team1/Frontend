@@ -6,22 +6,34 @@ import { MdOutlineAdd, MdEdit } from 'react-icons/md'; // 연필 아이콘 추�
 import NavigationBar from '../components/mainFooter/NavigationBar';
 import albumImage from '../assets/album.jpeg';
 import defaultProfile from '../assets/BasicUser.svg';
-import { getUserProfile, getUserProfileImage } from '../api/user';
+import { getUserProfile, getUserProfileImage } from '../api/user.jsx';
 import BasicUser from '../assets/BasicUser.svg';
 import { FaCog } from 'react-icons/fa';
 import PlayBar from '../components/PlayBar.jsx';
 import { getCollection } from '../api/user';
+import Cover1 from '../assets/Albums/cover1.jpg';
+import Cover2 from '../assets/Albums/cover2.jpg';
+import Cover3 from '../assets/Albums/cover3.jpg';
+import Cover4 from '../assets/Albums/cover4.jpg';
+import Cover5 from '../assets/Albums/cover5.jpg';
 
 const HomePage = () => {
   const userId = useSelector(state => state.user?.userId || 'User');
   const navigate = useNavigate();
-  const [items, setItems] = useState([]); // 현재 화면에 표시된 항목
+  // 현재 화면에 표시된 항목
   const [allItems, setAllItems] = useState([]); // 모든 항목을 저장
   const [visibleCount, setVisibleCount] = useState(12); // 현재 화면에 보이는 항목 수
   const [loading, setLoading] = useState(false); // 로딩 상태 추가
   const [initialLoad, setInitialLoad] = useState(true);
   const [data, setData] = useState(null); // 첫 로딩 상태 추가
   const [image, setImage] = useState(null);
+  const [items, setItems] = useState([
+    { id: 1, imageUrl: Cover1, title: 'Album Title 1' },
+    { id: 2, imageUrl: Cover2, title: 'Album Title 2' },
+    { id: 3, imageUrl: Cover3, title: 'Album Title 3' },
+    { id: 4, imageUrl: Cover4, title: 'Album Title 4' },
+    { id: 5, imageUrl: Cover5, title: 'Album Title 5' },
+  ]);
 
   const fetchData = async () => {
     const data = await getUserProfile();
@@ -29,8 +41,8 @@ const HomePage = () => {
     console.log(data);
     const imageData = await getUserProfileImage();
     setImage(imageData);
-    const collections = await getCollection();
-    setItems(collections);
+    // const collections = await getCollection();
+    // setItems(collections);
     console.log('collectons', collections);
   };
 
@@ -138,19 +150,19 @@ const HomePage = () => {
           ) : (
             <div>Loading...</div> // 데이터 로딩 중임을 표시
           )}
-          <div className="flex justify-between items-center mx-5 rounded-xl">
-            <span className="font-8extrabold text-[20px] my-[10px]">
-              COLLECTION
-            </span>
-            <MdOutlineAdd
-              onClick={() => navigate('/addsong')}
-              className="text-[24px]"
-            />
-          </div>
+        </div>
+        <div className="flex justify-between items-center mx-10 rounded-xl">
+          <span className="font-8extrabold text-[20px] my-[10px]">
+            COLLECTION
+          </span>
+          <MdOutlineAdd
+            onClick={() => navigate('/addsong')}
+            className="text-[24px]"
+          />
         </div>
 
         {/* 스크롤 가능한 컨텐츠 영역 */}
-        <div className="pt-[280px] overflow-auto h-full pb-[100px]">
+        <div className="pt-[10px] overflow-auto h-full pb-[100px]">
           <div className="grid grid-cols-3 gap-1 mx-5">
             {items.map((item, index) => {
               const isLastItem = index === items.length - 1;

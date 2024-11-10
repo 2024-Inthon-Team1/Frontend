@@ -6,7 +6,7 @@ import NavigationBar from './components/mainFooter/NavigationBar';
 import KakaoLoginPage from './pages/auth/KakaoLoginPage';
 import HomePage from './pages/HomePage';
 import RegisterPage from './pages/RegisterPage';
-// import ChatPage from './pages/ChatPage';
+import ChatPage from './pages/ChatPage';
 import FindPage from './pages/FindPage';
 import ChatListPage from './pages/ChatListPage';
 import LandingPage from './pages/LandingPage';
@@ -27,8 +27,13 @@ function App() {
       window.Kakao.init(kakaoClientId);
       console.log('Kakao SDK initialized:', window.Kakao.isInitialized());
     }
-    //Spotify Token 초기화하기
-    authenticateSpotify();
+    // //Spotify Token 초기화하기
+    // authenticateSpotify();
+    // App 로드 시 spotifyAccessToken을 localStorage에 저장
+    const accessToken =
+      'BQC8K-EYj6pE0jJIzyH4T2gIvOeZCMm94xsirmI68d6NV4ZOacxjMjLR4phMy9PoQMV6It3-FzaYMyNcyBZXh20ehYqKKJK98OIayDyMIfAEQVvCXv2Lj8vDHvoZwr8eG0N4Rg2HSUapxA3SktnZj3IQDK8zv-FOiQTFheutlMlbqC5mKcTCNTrXoENi07Bi3Wyp6zDO4I8RPSgEFXXD9imh9LrSOa7NntCRvJNy';
+    localStorage.setItem('spotifyAccessToken', accessToken);
+    console.log('Spotify Access Token saved to localStorage');
   }, []);
 
   return (
@@ -36,9 +41,8 @@ function App() {
       <Routes>
         {/* <Route element={<NavigationBar />}></Route> */}
         <Route path="home" element={<HomePage />} />
-        {/* <Route path="chat" element={<ChatPage />} /> */}
+        <Route path="chat" element={<ChatPage />} />
         <Route path="find" element={<FindPage />} />
-
         <Route path="/" element={<LandingPage />} />
         <Route path="/search" element={<SearchPage />} />
         <Route path="kakao/callback" element={<KakaoLoginPage />} />
@@ -48,7 +52,8 @@ function App() {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/albumscroll" element={<SrollAlbumPage />} />
         <Route path="/addsong" element={<AddSongPage />} />
-        <Route path="/otherhome/:id" element={<OtherHomePage />} />
+        <Route path="/scanhome" element={<OtherHomePage />} />
+        <Route path="/chatlist" element={<ChatListPage />} />
       </Routes>
     </Router>
   );
